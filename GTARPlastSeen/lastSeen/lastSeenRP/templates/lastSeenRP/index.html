@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+  </head>
+  <body>
+    {%if latest_character_list %}
+        <ul>
+            {% for character in latest_character_list%}
+                
+            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name%}">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})  </a></li> 
+                {% comment %}
+                    <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
+                {% endcomment %} 
+            {% endfor %}
+    {% else %}
+            <p> No characters are available. </p>
+    {% endif %}
+  </body>
+</html>
