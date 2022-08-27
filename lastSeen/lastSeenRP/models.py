@@ -23,4 +23,6 @@ class Appearance(models.Model):
         return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%m/%d/%Y, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
     def recently_published(self):
         return self.publish_time >= timezone.now() - datetime.timedelta(days=1)
+    class Meta:
+        ordering = ('-date_of_appearance',)
     

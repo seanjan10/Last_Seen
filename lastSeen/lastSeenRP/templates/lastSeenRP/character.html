@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+  </head>
+  <body>
+    <h1> {{character_id.character_first_name}} {{character_id.character_last_name}} </h1>
+    <h2> Played by {{character_id.character_played_by}} </h2>
+    <ul>
+    {% for appear in character_id.appearance_set.all %}
+        <li> appeared on {{appear.date_of_appearance}} on {{appear.clip_Streamer}}'s stream. <a href="{{appear.twitch_clip_URL}}"> Sample clip of appearance.</a>  </li>
+    {% endfor %}
+
+    
+    </ul>
+  </body>
+</html>
