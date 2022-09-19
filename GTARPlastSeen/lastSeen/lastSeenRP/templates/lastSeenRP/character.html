@@ -15,18 +15,28 @@
   </ul>
 
   <!--may remove this entirely and use twitch api to comb these details-->
-    <form action="?" method="post">
+    <!--<form action="?" method="post"> -->
+      <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
       {% csrf_token %}
     <fieldset>
       <legend>Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</legend>
-        <label for="clipURL_label">Twitch clip URL: </label>
+      {% if error_message %} <p><strong>{{error_message}}</strong></p> {% endif %}
+      <label for="clipURL_label">Twitch clip URL: </label>
+      {{form.clipURL}}
+      <br>
+      <label for="dateAndTime">Date of appearance : </label> 
+      {{form.dateOfAppearance}}
+      <br>
+      <label for="clipStreamer">Channel of the clip: </label>
+      {{form.channelName}}
+      <!--  <label for="clipURL_label">Twitch clip URL: </label>
         <input type="text" id="clipURL"name="clipURL_label"> <br>
-        <label for="date">Date of appearance (UTC): </label>
-        <input type="date" id="dateInput" name="dateInput"> 
-        <input type="time" id="timeInput" name="timeInput"> <br>
+        <label for="dateAndTime">Date of appearance : </label> 
+        <input type="datetime-local" id="dateInput" name="dateInput"> <br> 
         <label for="clipStreamer">Channel of the clip: </label>
-        <input type="text" id="clipStreamerL"name="clipStreamerL"> <br>
+        <input type="text" id="clipStreamerL"name="clipStreamerL"> <br> -->
     </fieldset>
+    <input type="submit" value="Submit new appearance">
   </form>
 
     {% comment %}
