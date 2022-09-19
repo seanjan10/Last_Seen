@@ -11,5 +11,6 @@ urlpatterns = [
     path('character/<str:character_FName>_<str:character_LName>/', views.character, name='character'),
     #path('character/<str:character_name>/', views.character, name='character'),
     #path('character/<int:character_id>/', views.character, name='character'),
-    path('appearance/<int:ap_id>/', views.appearanceOfCharacter, name='appearanceOfCharacter')
+    path('character/<str:character_FName>_<str:character_LName>/create_appearance/<int:ap_id>/', views.appearanceOfCharacter, name='appearanceOfCharacter'),
+    #path('appearance/create/<int:ap_id>/', views.createAppearance, name='createAppearance')
 ]

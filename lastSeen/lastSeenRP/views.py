@@ -37,7 +37,11 @@ def character(request, character_FName, character_LName):
     return render(request, 'lastSeenRP/character.html', {'character_id': character_id})
     '''
 
-def appearanceOfCharacter(request, ap_id):
+def appearanceOfCharacter(request, character_FName, character_LName):
     response = "you're looking at the appearance %s"
-    return HttpResponse(response % ap_id)
+    return HttpResponse(response % character_FName)
+
+'''def createAppearance(request, char_id):
+    response = "you're creating an appearance with id %s"
+    return HttpResponse(response % char_id)'''
 

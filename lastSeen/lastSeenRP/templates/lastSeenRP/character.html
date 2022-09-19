@@ -3,7 +3,7 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
-    <title>My test page</title>
+    <title>Appearances by {{character_id.character_first_name}} {{character_id.character_last_name}}</title>
   </head>
   <body>
     <h1> {{character_id.character_first_name}} {{character_id.character_last_name}} </h1>
@@ -12,8 +12,26 @@
     {% for appear in character_id.appearance_set.all %}
         <li> appeared on {{appear.date_of_appearance}} on {{appear.clip_Streamer}}'s stream. <a href="{{appear.twitch_clip_URL}}"> Sample clip of appearance.</a>  </li>
     {% endfor %}
+  </ul>
 
-    
-    </ul>
+  <!--may remove this entirely and use twitch api to comb these details-->
+    <form action="?" method="post">
+      {% csrf_token %}
+    <fieldset>
+      <legend>Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</legend>
+        <label for="clipURL_label">Twitch clip URL: </label>
+        <input type="text" id="clipURL"name="clipURL_label"> <br>
+        <label for="date">Date of appearance (UTC): </label>
+        <input type="date" id="dateInput" name="dateInput"> 
+        <input type="time" id="timeInput" name="timeInput"> <br>
+        <label for="clipStreamer">Channel of the clip: </label>
+        <input type="text" id="clipStreamerL"name="clipStreamerL"> <br>
+    </fieldset>
+  </form>
+
+    {% comment %}
+      <a href="{% url 'lastSeenRP:appearanceOfCharacter"
+    {% endcomment %}
+
   </body>
 </html>
