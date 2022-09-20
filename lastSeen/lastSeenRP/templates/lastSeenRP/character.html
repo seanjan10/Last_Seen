@@ -29,19 +29,15 @@
       <br>
       <label for="clipStreamer">Channel of the clip: </label>
       {{form.channelName}}
-      <!--  <label for="clipURL_label">Twitch clip URL: </label>
-        <input type="text" id="clipURL"name="clipURL_label"> <br>
-        <label for="dateAndTime">Date of appearance : </label> 
-        <input type="datetime-local" id="dateInput" name="dateInput"> <br> 
-        <label for="clipStreamer">Channel of the clip: </label>
-        <input type="text" id="clipStreamerL"name="clipStreamerL"> <br> -->
     </fieldset>
     <input type="submit" value="Submit new appearance">
   </form>
-
-    {% comment %}
-      <a href="{% url 'lastSeenRP:appearanceOfCharacter"
-    {% endcomment %}
+  <!--modify this when making the UI look good // boostrap, etc-->
+  {%if messages %}
+  {% for message in messages %}
+  <h2> {{message}} </h2>
+  {% endfor %}
+  {% endif %}
 
   </body>
 </html>
