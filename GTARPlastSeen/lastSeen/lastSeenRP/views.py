@@ -4,6 +4,7 @@ from lastSeenRP.models import rpCharacter, Appearance
 from .forms import createAppearanceForm
 from datetime import datetime
 from django.urls import reverse
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -59,6 +60,7 @@ def resubmit(request, character_FName, character_LName):
             a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=datetime.now())
             a.save()
             #return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
+            messages.success(request, 'Successfully submitted an appearance!')
             return HttpResponseRedirect(reverse('lastSeenRP:character', args=(character_FName, character_LName,)))
         else:
             #print('is it reaching this uhoh this might be bad')
@@ -68,7 +70,3 @@ def resubmit(request, character_FName, character_LName):
                 'form': form, 
                 'error_message': "Error: you either entered incorrect data or mistyped",  
                 })
-
-    ''' try: 
-            if 
-        except (KeyError, Appearance.DoesNotExist): '''
