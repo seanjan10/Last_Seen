@@ -20,7 +20,7 @@ class Appearance(models.Model):
     clip_Streamer = models.CharField(max_length=50) #in case the clip gets deleted they can find the streamers vod and watch
     publish_time = models.DateTimeField('date and time a user submitted this post', default=datetime.now)
     def __str__(self):
-        return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%m/%d/%Y, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
+        return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%Y-%m-%d, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
     def recently_published(self):
         return self.publish_time >= timezone.now() - datetime.timedelta(days=1)
     class Meta:

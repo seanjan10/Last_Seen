@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from lastSeenRP.models import rpCharacter
+from lastSeenRP.models import rpCharacter, Appearance
+from .forms import createAppearanceForm
+from datetime import datetime
 # Create your views here.
 
 def index(request):
@@ -25,9 +27,10 @@ def index(request):
 def character(request, character_FName, character_LName):
     '''response = "You're looking at character %s"
     return HttpResponse(response % character_name)'''
-    
+    form = createAppearanceForm()
+
     character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
-    return render(request, 'lastSeenRP/character.html', {'character_id': character_id})
+    return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
 
     '''
     try:
@@ -37,7 +40,28 @@ def character(request, character_FName, character_LName):
     return render(request, 'lastSeenRP/character.html', {'character_id': character_id})
     '''
 
-def appearanceOfCharacter(request, ap_id):
+def appearanceOfCharacter(request, character_FName, character_LName):
     response = "you're looking at the appearance %s"
-    return HttpResponse(response % ap_id)
+    return HttpResponse(response % character_FName)
 
+
+def resubmit(request, character_FName, character_LName):
+    character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
+    if request.method == 'POST':
+        form = createAppearanceForm(request.POST)
+        print(character_id)
+        
+        if form.is_valid():
+            u = form.cleaned_data["clipURL"]
+            d = form.cleaned_data["dateOfAppearance"]
+            c = form.cleaned_data["channelName"]
+            a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=datetime.now())
+            a.save()
+            return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
+        else:
+            print('is it reaching this uhoh this might be bad')
+            return HttpResponse("this is not good ")
+
+    ''' try: 
+            if 
+        except (KeyError, Appearance.DoesNotExist): '''
