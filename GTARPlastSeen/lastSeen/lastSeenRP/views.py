@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from lastSeenRP.models import rpCharacter, Appearance
 from .forms import createAppearanceForm
 from datetime import datetime
+from django.urls import reverse
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -57,11 +59,14 @@ def resubmit(request, character_FName, character_LName):
             c = form.cleaned_data["channelName"]
             a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=datetime.now())
             a.save()
-            return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
+            #return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
+            messages.success(request, 'Successfully submitted an appearance!')
+            return HttpResponseRedirect(reverse('lastSeenRP:character', args=(character_FName, character_LName,)))
         else:
-            print('is it reaching this uhoh this might be bad')
-            return HttpResponse("this is not good ")
-
-    ''' try: 
-            if 
-        except (KeyError, Appearance.DoesNotExist): '''
+            #print('is it reaching this uhoh this might be bad')
+            form = createAppearanceForm()
+            return render(request, 'lastSeenRP/character.html', {
+                'character_id': character_id,
+                'form': form, 
+                'error_message': "Error: you either entered incorrect data or mistyped",  
+                })
