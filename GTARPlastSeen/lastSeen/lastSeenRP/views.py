@@ -5,9 +5,21 @@ from .forms import createAppearanceForm
 from datetime import datetime
 from django.urls import reverse
 from django.contrib import messages
+from django.views import generic
 # Create your views here.
 
-def index(request):
+
+class IndexView(generic.ListView):
+    template_name = 'lastSeenRP/index.html'
+    context_object_name = 'latest_character_list'
+
+    def get_queryset(self):
+       return rpCharacter.objects.order_by('-character_first_name')[:5]
+    
+
+
+
+#def index(request):
     
     #return HttpResponse("Hello world, you are at the lastSeen Index.")
     '''latest_character_list = rpCharacter.objects.order_by('-character_first_name')[:5]
@@ -20,12 +32,12 @@ def index(request):
         'latest_character_list' : latest_character_list,
     }
     return HttpResponse(template.render(context, request))'''
-
+'''
     latest_character_list = rpCharacter.objects.order_by('-character_first_name')[:5]
     context = {'latest_character_list': latest_character_list}
     return render(request, 'lastSeenRP/index.html', context)
 
-
+'''
 def character(request, character_FName, character_LName):
     '''response = "You're looking at character %s"
     return HttpResponse(response % character_name)'''
