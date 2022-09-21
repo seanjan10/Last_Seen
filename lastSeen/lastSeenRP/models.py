@@ -28,8 +28,11 @@ class Appearance(models.Model):
     publish_time = models.DateTimeField('date and time a user submitted this post', default=datetime.now())
     def __str__(self):
         return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%Y-%m-%d, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
+    #should change to recently appeared, or make a new func
     def recently_published(self):
-        return self.publish_time >= datetime.now() - timedelta(days=1)
+        now = datetime.now()
+        #return self.publish_time >= datetime.now() - timedelta(days=1)
+        return now - timedelta(days=1) <= self.date_of_appearance <= now
     class Meta:
         ordering = ('-date_of_appearance',)
     
