@@ -14,7 +14,8 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_character_list'
 
     def get_queryset(self):
-       return rpCharacter.objects.order_by('-character_first_name')[:5]
+       return rpCharacter.objects.order_by('-character_first_name')[:10]
+       
     
 
 
@@ -38,14 +39,20 @@ class IndexView(generic.ListView):
     return render(request, 'lastSeenRP/index.html', context)
 
 '''
+'''
+class CharacterFormView(generic.FormView):
+    template_name = 'lastSeenRP\character.html'
+    form_class = createAppearanceForm
+    success_url = '/lastSeenRP/character/'
+'''
+    
+
 def character(request, character_FName, character_LName):
-    '''response = "You're looking at character %s"
-    return HttpResponse(response % character_name)'''
     form = createAppearanceForm()
 
     character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
     return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
-
+    
     '''
     try:
         character_id = rpCharacter.objects.get(character_first_name=charFirstName, character_last_name=charLastName)
