@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
+import pytz
+from django.contrib import admin
 
 # Create your models here.
 
@@ -26,14 +28,21 @@ class Appearance(models.Model):
     twitch_clip_URL = models.CharField(max_length=100)
     date_of_appearance = models.DateTimeField('date and time that the character showed up')
     clip_Streamer = models.CharField(max_length=50) #in case the clip gets deleted they can find the streamers vod and watch
-    publish_time = models.DateTimeField('date and time a user submitted this post', default=datetime.now())
+    publish_time = models.DateTimeField('date and time a user submitted this post', default= pytz.UTC.localize(datetime.now()))
     def __str__(self):
         return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%Y-%m-%d, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
     #should change to recently appeared, or make a new func
+
+    @admin.display(
+        boolean=True,
+        ordering='date_of_appearance', 
+        description='recently appeared',
+    )
+    #try to troubleshoot why some appearances made within the past hour aren't recent but more than a day are
     def recently_published(self):
-        now = datetime.now()
+        now = pytz.UTC.localize(datetime.now())
         #return self.publish_time >= datetime.now() - timedelta(days=1)
-        return now - timedelta(days=1) <= self.date_of_appearance <= now
+        return now - timedelta(days=7) <= self.date_of_appearance <= now + timedelta(hours=1)
     class Meta:
         ordering = ('-date_of_appearance',)
     
