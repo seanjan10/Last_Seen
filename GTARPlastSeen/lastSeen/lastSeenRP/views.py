@@ -6,6 +6,7 @@ from datetime import datetime
 from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
+import pytz
 # Create your views here.
 
 
@@ -76,7 +77,7 @@ def resubmit(request, character_FName, character_LName):
             u = form.cleaned_data["clipURL"]
             d = form.cleaned_data["dateOfAppearance"]
             c = form.cleaned_data["channelName"]
-            a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=datetime.now())
+            a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=pytz.UTC.localize(datetime.now()))
             a.save()
             #return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
             messages.success(request, 'Successfully submitted an appearance!')
