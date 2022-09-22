@@ -21,6 +21,7 @@ class Appearance(models.Model):
     #adjust twitch_clip_URL to include streamable, youtube, facebook etc. 
     #link to the clip streamers twitch/youtube/facebook
     #change times to only include UTC time
+    #username of reddit user etc who submitted the appearance
     character_name = models.ForeignKey(rpCharacter, on_delete=models.CASCADE)
     twitch_clip_URL = models.CharField(max_length=100)
     date_of_appearance = models.DateTimeField('date and time that the character showed up')

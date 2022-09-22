@@ -9,11 +9,16 @@
     <h1> {{character_id.character_first_name}} {{character_id.character_last_name}} </h1>
     <h2> Played by {{character_id.character_played_by}} </h2>
     <ul>
-    {% for appear in character_id.appearance_set.all %}
-        <li> appeared on {{appear.date_of_appearance}} on {{appear.clip_Streamer}}'s stream. <a href="{{appear.twitch_clip_URL}}"> Sample clip of appearance.</a>  </li>
-    {% endfor %}
-  </ul>
 
+    
+
+      {% for appear in character_id.appearance_set.all %}
+          <li> appeared on {{appear.date_of_appearance}} on {{appear.clip_Streamer}}'s stream. <a href="{{appear.twitch_clip_URL}}"> Sample clip of appearance.</a>  </li>
+    {% empty %}
+      <li> This character has no appearances in the database. Would you like to create one?</li>
+      {% endfor %}
+  </ul>
+  
   <!--may remove this entirely and use twitch api to comb these details-->
     <!--<form action="?" method="post"> -->
       <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
@@ -32,7 +37,7 @@
     </fieldset>
     <input type="submit" value="Submit new appearance">
   </form>
-  <!--modify this when making the UI look good // boostrap, etc-->
+  <!--currently only shows message to show that data entry was successful. modify this when making the UI look good // bootstrap, etc-->
   {%if messages %}
   {% for message in messages %}
   <h2> {{message}} </h2>
