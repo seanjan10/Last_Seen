@@ -10,6 +10,7 @@ class rpCharacter(models.Model):
     #potential fields to be added
     #link to the streamers twitch/facebook/youtube field
     #optional middle name/nickname field
+    #link to an image of the character
     character_first_name = models.CharField(max_length=30)
     character_last_name = models.CharField(max_length=45)
     character_played_by = models.CharField(max_length=50)
