@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
 import pytz
+
+
 # Create your views here.
 
 
@@ -46,7 +48,7 @@ class CharacterFormView(generic.FormView):
     form_class = createAppearanceForm
     success_url = '/lastSeenRP/character/'
 '''
-    
+
 
 def character(request, character_FName, character_LName):
     form = createAppearanceForm()
