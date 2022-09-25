@@ -1,3 +1,4 @@
 .env
 praw.ini
 db.sqlite3
+characterSplit.txt

@@ -12,10 +12,13 @@ class rpCharacter(models.Model):
     #optional middle name/nickname field
     #link to an image of the character
     character_first_name = models.CharField(max_length=30)
-    character_last_name = models.CharField(max_length=45)
-    character_played_by = models.CharField(max_length=50)
+    character_nick_name = models.CharField(max_length=50, default="")
+    character_last_name = models.CharField(max_length=50)
+    character_played_by = models.CharField(max_length=50, default="Unknown")
+    streamers_URL = models.CharField(max_length=60, default="Unknown")
+
     def __str__(self):
-        return self.character_first_name + ', ' + self.character_last_name + ', ' + self.character_played_by
+        return self.character_first_name + ', ' + self.character_nick_name + ', ' + self.character_last_name + ', ' + self.character_played_by + ', ' + self.streamers_URL
     
 
 class Appearance(models.Model):

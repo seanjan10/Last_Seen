@@ -9,9 +9,10 @@ class AppearanceInline(admin.TabularInline):
     extra = 1
 
 class rpCharacterAdmin(admin.ModelAdmin):
-    fields = [ 'character_first_name', 'character_last_name', 'character_played_by']
-    list_display = ('character_first_name', 'character_last_name', 'character_played_by')
+    fields = [ 'character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL']
+    list_display = ('character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL')
     inlines = [AppearanceInline]
+    search_fields = ['character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL']
 
 class AppearanceAdmin(admin.ModelAdmin):
     #fields = ['character_name', 'date_of_appearance', 'twitch_clip_URL', 'clip_Streamer', 'publish_time']
