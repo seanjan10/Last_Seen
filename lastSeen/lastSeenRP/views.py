@@ -10,7 +10,7 @@ import pytz
 
 
 # Create your views here.
-
+#played by, roleplayed by, portrayed by
 
 class IndexView(generic.ListView):
     template_name = 'lastSeenRP/index.html'
