@@ -24,7 +24,7 @@ for i in range(0, 4149):
         flag = 1
         print('streamers name is unknown')
     else:
-        x =re.search(r"https\:\/\/(www\.)?([A-Za-z0-9]*)\.(.){2,3}(\/)?([A-Za-z0-9]*)(\/)?([A-Za-z0-9]*)", URL)
+        x =re.search(r"https\:\/\/(www\.)?([A-Za-z0-9]*)\.(.){2,3}(\/)?([A-Za-z0-9\_]*)(\/)?([A-Za-z0-9\_]*)", URL)
         if x.group(2) == 'twitch':
             groupList = x.group(5)
             print(groupList)
