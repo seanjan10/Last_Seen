@@ -13,7 +13,7 @@
         <ul>
             {% for character in latest_character_list%}
                 
-            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name%}">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})  </a></li> 
+            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name%}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name}} ({{character.character_played_by}})  </a></li> 
                 {% comment %}
                     <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
                 {% endcomment %} 
@@ -21,5 +21,24 @@
     {% else %}
             <p> No characters are available. </p>
     {% endif %}
+
+    <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+  
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+    
   </body>
 </html>

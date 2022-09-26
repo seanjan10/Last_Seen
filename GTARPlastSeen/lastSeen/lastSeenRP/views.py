@@ -15,9 +15,10 @@ import pytz
 class IndexView(generic.ListView):
     template_name = 'lastSeenRP/index.html'
     context_object_name = 'latest_character_list'
-
+    paginate_by = 501
+    model = rpCharacter
     def get_queryset(self):
-       return rpCharacter.objects.order_by('-character_first_name')[:10]
+       return rpCharacter.objects.order_by('character_first_name')[:]
        
     
 

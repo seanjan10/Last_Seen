@@ -11,11 +11,12 @@ class rpCharacter(models.Model):
     #link to the streamers twitch/facebook/youtube field
     #optional middle name/nickname field
     #link to an image of the character
+    #additional linkes to their youtube/twitch if they have it
     character_first_name = models.CharField(max_length=30)
-    character_nick_name = models.CharField(max_length=50, default="")
+    character_nick_name = models.CharField(max_length=50, default="", blank=True)
     character_last_name = models.CharField(max_length=50)
-    character_played_by = models.CharField(max_length=50, default="Unknown")
-    streamers_URL = models.CharField(max_length=60, default="Unknown")
+    character_played_by = models.CharField(max_length=50, default="Unknown", blank=True)
+    streamers_URL = models.CharField(max_length=60, default="Unknown", blank=True)
 
     def __str__(self):
         return self.character_first_name + ', ' + self.character_nick_name + ', ' + self.character_last_name + ', ' + self.character_played_by + ', ' + self.streamers_URL
