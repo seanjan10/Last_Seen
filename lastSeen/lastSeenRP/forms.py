@@ -9,3 +9,7 @@ class createAppearanceForm(forms.Form):
 
     #name of the channel that the clip was created under, may append twitch/facebook/youtube the name that is attached or let the user provide it?
     channelName = forms.CharField(label="Channel of the clip", max_length=30)
+
+
+class searchForCharacter(forms.Form):
+    searchQuery = forms.CharField(label="Search by character or streamer name", max_length=60, widget=forms.TextInput(attrs={'placeholder': 'Search by character or streamer name'}))
