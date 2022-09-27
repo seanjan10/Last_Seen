@@ -53,8 +53,11 @@ class CharacterFormView(generic.FormView):
 
 def character(request, character_FName, character_LName):
     form = createAppearanceForm()
-
+    print(character_FName)
+    print(character_LName)
     character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
+
+    print(character_id)
     return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
     
     '''

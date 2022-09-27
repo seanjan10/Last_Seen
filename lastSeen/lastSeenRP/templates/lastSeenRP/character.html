@@ -1,12 +1,12 @@
-
+{%load filters%}
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
-    <title>Appearances by {{character_id.character_first_name}} {{character_id.character_last_name}}</title>
+    <title>Appearances by {{character_id.character_first_name}} {{character_id.character_last_name|readd_whitespace}}</title>
   </head>
   <body>
-    <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name}} </h1>
+    <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name|readd_whitespace}} </h1>
     {% if character_id.streamers_URL == "Unknown" %}
       <h2> Played by {{character_id.character_played_by}} </h2>
     {%else%}
@@ -45,5 +45,6 @@
   {% endfor %}
   {% endif %}
 
+  <!--<img src="https://static.wikia.nocookie.net/nopixel/images/9/91/ConanLT.png/revision/latest?cb=20220406173006", alt="COnan"> -->
   </body>
 </html>
