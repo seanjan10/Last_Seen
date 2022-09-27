@@ -9,8 +9,15 @@
     <link rel="stylesheet" href="{% static 'lastSeenRP/style.css' %}">
   </head>
   <body>
-    {%if latest_character_list %}
-        <ul>
+    <form action="{% url 'lastSeenRP:search' %}" method='GET'>
+    <label for="searchLabel">Search for a character or a streamer</label>
+    {{form.searchQuery}}
+    <input type="submit" value="Search">
+    </form>
+
+        <div class="character_list">
+        {%if latest_character_list %}
+            <ul>
             {% for character in latest_character_list%}
                 
             <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
@@ -18,9 +25,10 @@
                     <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
                 {% endcomment %} 
             {% endfor %}
-    {% else %}
+        {% else %}
             <p> No characters are available. </p>
-    {% endif %}
+        {% endif %}
+        </div>
 
     <div class="pagination">
       <span class="step-links">

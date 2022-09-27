@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from lastSeenRP.models import rpCharacter, Appearance
-from .forms import createAppearanceForm
+from .forms import createAppearanceForm, searchForCharacter
 from datetime import datetime
 from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
+from django.db.models import Q
 import pytz
 
 
@@ -14,6 +15,7 @@ import pytz
 class IndexView(generic.ListView):
     #html file to reference
     template_name = 'lastSeenRP/index.html'
+    
     #object that is passed into the template
     context_object_name = 'latest_character_list'
     #number of characters per page before pagination
@@ -23,11 +25,11 @@ class IndexView(generic.ListView):
     #in which order the list/queryset is to be displayed
     def get_queryset(self):
        return rpCharacter.objects.order_by('character_first_name')[:]
-       
-    
-
-
-
+    #get a form object to display the search bar
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context["form"] = searchForCharacter()
+        return context
 #def index(request):
     
     #return HttpResponse("Hello world, you are at the lastSeen Index.")
@@ -103,3 +105,31 @@ def resubmit(request, character_FName, character_LName):
                 'form': form, 
                 'error_message': "Error: you either entered incorrect data or mistyped",  
                 })
+
+
+class searchResults(generic.ListView):
+    template_name = 'lastSeenRP\search.html'
+    context_object_name = 'search_results_list'
+    #paginate_by = 501
+    model = rpCharacter()
+
+    #get context variables to be displayed in teh search page, the form and the query the user entered
+    def get_context_data(self, **kwargs):
+        context = super(searchResults, self).get_context_data(**kwargs)
+        context["search_query"] = self.request.GET.get("searchQuery")
+        context["form"] = searchForCharacter()
+        print(type(context))
+        return context
+    #list of characters that match the search query
+    def get_queryset(self):
+        query = self.request.GET.get("searchQuery")
+        print(query)
+        #search fName, nick name, Lname, and streamer name for the user search query
+        search_results_list = rpCharacter.objects.filter(
+        Q(character_first_name__icontains=query) 
+        | Q(character_nick_name__icontains=query) 
+        | Q(character_last_name__icontains=query) 
+        | Q(character_played_by__icontains=query)
+        )
+        return search_results_list
+    

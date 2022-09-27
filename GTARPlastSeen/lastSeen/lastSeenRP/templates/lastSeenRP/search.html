@@ -1,0 +1,36 @@
+{%load filters%}
+<!DOCTYPE html> 
+<html lang="en-US">
+
+<head>
+    <title> Search Results for "{{search_query}}" </title>
+</head>
+<body>
+    
+
+
+    <h1> Results for "{{search_query}}" </h1>
+    <form action="{% url 'lastSeenRP:search' %}" method='GET'>
+        <label for="searchLabel">Search for a character or a streamer</label>
+        {{form.searchQuery}}
+        <input type="submit" value="Search">
+        </form>
+    <div class='results'>
+        <ul>
+            {%if search_results_list%}
+                {% for result in search_results_list%}
+                    <li>
+                        <a href="{% url 'lastSeenRP:character' result.character_first_name result.character_last_name %}">{{result.character_first_name}} {{result.character_nick_name}} {{result.character_last_name|readd_whitespace}} ({{result.character_played_by}})  </a>
+                    </li>
+                {%endfor%}
+            {%else%}
+                <p>No results found for your query. </p>
+            {%endif%}
+    <div>
+
+</body>
+
+
+
+
+</html>
