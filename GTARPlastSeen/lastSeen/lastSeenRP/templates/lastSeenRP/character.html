@@ -6,6 +6,8 @@
     <title>Appearances by {{character_id.character_first_name}} {{character_id.character_last_name|readd_whitespace}}</title>
   </head>
   <body>
+    
+    <img src="{{character_id.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="300" height="400">
     <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name|readd_whitespace}} </h1>
     {% if character_id.streamers_URL == "Unknown" %}
       <h2> Played by {{character_id.character_played_by}} </h2>

@@ -4,14 +4,19 @@ from lastSeenRP.models import rpCharacter, Appearance
 #admin.site.register(rpCharacter)
 #admin.site.register(Appearance)
 
+#shows appearances under a character in the admin menu if they need to be created there
 class AppearanceInline(admin.TabularInline):
     model = Appearance
+    #only one extra one
     extra = 1
 
 class rpCharacterAdmin(admin.ModelAdmin):
-    fields = [ 'character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL']
-    list_display = ('character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL')
+    #fields that are displayed in the admin panel
+    fields = [ 'character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'character_image', 'streamers_URL']
+    #
+    list_display = ('character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'character_image', 'streamers_URL')
     inlines = [AppearanceInline]
+    #fields that will appear in the results of a search
     search_fields = ['character_first_name','character_nick_name', 'character_last_name', 'character_played_by', 'streamers_URL']
 
 class AppearanceAdmin(admin.ModelAdmin):
@@ -26,6 +31,6 @@ class AppearanceAdmin(admin.ModelAdmin):
 
 
 
-
+#objects that will appear in the admin site
 admin.site.register(rpCharacter, rpCharacterAdmin)
 admin.site.register(Appearance, AppearanceAdmin)

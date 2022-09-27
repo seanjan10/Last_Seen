@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 reddit = praw.Reddit(
 
     "bot1", 
-    user_agent = "<NoPixelAppearanceBot 1.0> by /u/DeadlyPirate",
+    user_agent = "<NoPixelAppearanceBot 1.0> by /u/",
 )
 
 for item in reddit.inbox.stream(skip_existing=False):
