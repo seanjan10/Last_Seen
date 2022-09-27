@@ -1,5 +1,5 @@
 {%load static%}
-
+{%load filters %}
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -13,7 +13,7 @@
         <ul>
             {% for character in latest_character_list%}
                 
-            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name%}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name}} ({{character.character_played_by}})  </a></li> 
+            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
                 {% comment %}
                     <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
                 {% endcomment %} 

@@ -7,6 +7,11 @@ application = get_wsgi_application()
 
 from lastSeenRP.models import rpCharacter
 
+
+
+
+
+
 filename = "characterSplit.txt"
 
 f = open(filename, 'r', encoding='UTF-8')
@@ -32,8 +37,19 @@ for i in range(0, 4149):
             groupList = x.group(7)
             print(groupList)
 
-    if flag == 0:
-        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=splitList[2]+" "+splitList[3]+" "+splitList[4], character_played_by=groupList, streamers_URL=splitList[5])
+    fullLastName = ""
+    if splitList[4] == "":
+        if splitList[3] == "":
+            fullLastName = splitList[2]
+        else:
+            fullLastName = splitList[2] + "_" + splitList[3]
     else:
-        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=splitList[2]+" "+splitList[3]+" "+splitList[4])
+        fullLastName = splitList[2] + "_" + splitList[3] + "_" + splitList[4]
+
+
+    if flag == 0:
+        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=fullLastName, character_played_by=groupList, streamers_URL=splitList[5])
+    else:
+        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=fullLastName)
     r.save()
+    
