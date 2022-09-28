@@ -19,20 +19,12 @@
     </div>
 
     <a href="{% url 'lastSeenRP:create' %}">Create Character Entry </a>
-
-    {%if messages %}
-        {% for message in messages %}
-            <h2> {{message}} </h2>
-        {% endfor %}
-    {% endif %}
-
-
         <div class="character_list">
         {%if latest_character_list %}
             <ul>
             {% for character in latest_character_list%}
                 
-            <li><a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
+            <li> <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
                 {% comment %}
                     <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
                 {% endcomment %} 
