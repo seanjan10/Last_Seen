@@ -17,10 +17,14 @@ class rpCharacter(models.Model):
     #currently all names except first are considered last name or nick name
     character_last_name = models.CharField(max_length=50)
     #if info about who plays a character isn't available, then display unknown
-    character_played_by = models.CharField(max_length=50, default="Unknown", blank=True)
-    character_image = models.CharField(max_length=200, default="https://static.wikia.nocookie.net/nopixel/images/5/5f/Placeholder.jpg")
-    streamers_URL = models.CharField(max_length=60, default="Unknown", blank=True)
+    character_played_by = models.CharField(max_length=50,  blank=True)
+    character_image = models.CharField(max_length=200, blank=True)
+    streamers_URL = models.CharField(max_length=60, blank=True)
 
+    #default="https://static.wikia.nocookie.net/nopixel/images/5/5f/Placeholder.jpg"
+
+    class Meta:
+        unique_together = ["character_first_name", "character_last_name"]
 
     def __str__(self):
         return self.character_first_name + ', ' + self.character_nick_name + ', ' + self.character_last_name + ', ' + self.character_played_by + ', ' + self.streamers_URL + ', ' + self.character_image

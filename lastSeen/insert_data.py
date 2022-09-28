@@ -19,7 +19,7 @@ f = open(filename, 'r', encoding='UTF-8')
 
 #insert a record from a CSV (txt) file to be inserted into the DB after every time the DB is flushed
 #4145 is the current amount of the records in the txt file
-for i in range(0, 4145):
+for i in range(0, 4141):
     #flag if there is no streamer name provided
     flag = 0
     line = f.readline()
