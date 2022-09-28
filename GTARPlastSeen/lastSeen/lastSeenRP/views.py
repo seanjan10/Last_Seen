@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from lastSeenRP.models import rpCharacter, Appearance
-from .forms import createAppearanceForm, searchForCharacter
+from .forms import createAppearanceForm, searchForCharacter, createCharacter
 from datetime import datetime
 from django.urls import reverse
 from django.contrib import messages
@@ -30,31 +30,6 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context["form"] = searchForCharacter()
         return context
-#def index(request):
-    
-    #return HttpResponse("Hello world, you are at the lastSeen Index.")
-    '''latest_character_list = rpCharacter.objects.order_by('-character_first_name')[:5]
-    output = ','.join([c.character_played_by for c in latest_character_list])
-    return HttpResponse(output) '''
-
-    #latest_character_list = rpCharacter.objects.order_by('-character_first_name')[:5]
-    '''template = loader.get_template('lastSeenRP/index.html')
-    context = {
-        'latest_character_list' : latest_character_list,
-    }
-    return HttpResponse(template.render(context, request))'''
-'''
-    latest_character_list = rpCharacter.objects.order_by('-character_first_name')[:5]
-    context = {'latest_character_list': latest_character_list}
-    return render(request, 'lastSeenRP/index.html', context)
-
-'''
-'''
-class CharacterFormView(generic.FormView):
-    template_name = 'lastSeenRP\character.html'
-    form_class = createAppearanceForm
-    success_url = '/lastSeenRP/character/'
-'''
 
 #view to display the characters page with a list of all their appearances
 def character(request, character_FName, character_LName):
@@ -108,7 +83,7 @@ def resubmit(request, character_FName, character_LName):
 
 
 class searchResults(generic.ListView):
-    template_name = 'lastSeenRP\search.html'
+    template_name = 'lastSeenRP/search.html'
     context_object_name = 'search_results_list'
     #paginate_by = 501
     model = rpCharacter()
@@ -132,4 +107,24 @@ class searchResults(generic.ListView):
         | Q(character_played_by__icontains=query)
         )
         return search_results_list
+
+class createCharacterEntry(generic.FormView):
+    template_name = 'lastSeenRP/create.html'
+    form_class = createCharacter
+    #save the character object
+    def form_valid(self, form):
+
+        character= form.save()
+        self.character_first_name = character.character_first_name
+        self.character_last_name = character.character_last_name
+        messages.success(self.request, "Successfully inserted character into the database")
+
+        return super(createCharacterEntry, self).form_valid(form)
+    #if the data is valid redirects to the newly created page of the user submitted data
+    def get_success_url(self):
+        #print(self.character_first_name, "|||self field")
+        #print(self.character_last_name, "||| self field")
+        return reverse('lastSeenRP:character', args={self.character_first_name, self.character_last_name})
+        #return reverse('lastSeenRP:index')
+    
     

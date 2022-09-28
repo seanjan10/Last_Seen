@@ -7,13 +7,25 @@
     <meta charset="utf-8">
     <title>My test page</title>
     <link rel="stylesheet" href="{% static 'lastSeenRP/style.css' %}">
+    <link rel="icon" type="image/jpg" href="{%static 'lastSeenRP/images/binoculars.jpg' %}">
   </head>
   <body>
-    <form action="{% url 'lastSeenRP:search' %}" method='GET'>
-    <label for="searchLabel">Search for a character or a streamer</label>
-    {{form.searchQuery}}
-    <input type="submit" value="Search">
-    </form>
+    <div class="search">
+        <form action="{% url 'lastSeenRP:search' %}" method='GET'>
+        <label for="searchLabel">Search for a character or a streamer</label>
+        {{form.searchQuery}}
+        <input type="submit" value="Search">
+        </form>
+    </div>
+
+    <a href="{% url 'lastSeenRP:create' %}">Create Character Entry </a>
+
+    {%if messages %}
+        {% for message in messages %}
+            <h2> {{message}} </h2>
+        {% endfor %}
+    {% endif %}
+
 
         <div class="character_list">
         {%if latest_character_list %}

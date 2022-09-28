@@ -16,7 +16,7 @@
     {%endif%}
     <ul>
       {% for appear in character_id.appearance_set.all %}
-          <li> appeared on {{appear.date_of_appearance}} on {{appear.clip_Streamer}}'s stream. <a href="{{appear.twitch_clip_URL}}"> Sample clip of appearance.</a>  </li>
+          <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
     {% empty %}
       <li> This character has no appearances in the database. Would you like to create one?</li>
       {% endfor %}
@@ -26,20 +26,20 @@
     <!--<form action="?" method="post"> -->
       <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
       {% csrf_token %}
-    <fieldset>
-      <legend>Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</legend>
-      {% if error_message %} <p><strong>{{error_message}}</strong></p> {% endif %}
-      <label for="clipURL_label">Twitch clip URL: </label>
-      {{form.clipURL}}
-      <br>
-      <label for="dateAndTime">Date of appearance : </label> 
-      {{form.dateOfAppearance}}
-      <br>
-      <label for="clipStreamer">Channel of the clip: </label>
-      {{form.channelName}}
-    </fieldset>
-    <input type="submit" value="Submit new appearance">
-  </form>
+        <fieldset>
+          <legend>Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</legend>
+            {% if error_message %} <p><strong>{{error_message}}</strong></p> {% endif %}
+              <label for="clipURL_label">Twitch clip URL: </label>
+              {{form.clipURL}}
+              <br>
+              <label for="dateAndTime">Date of appearance (UTC Time): </label> 
+              {{form.dateOfAppearance}}
+              <br>
+              <label for="clipStreamer">Channel of the clip: </label>
+              {{form.channelName}}
+        </fieldset>
+      <input type="submit" value="Submit new appearance">
+    </form>
   <!--currently only shows message to show that data entry was successful. modify this when making the UI look good // bootstrap, etc-->
   {%if messages %}
   {% for message in messages %}
