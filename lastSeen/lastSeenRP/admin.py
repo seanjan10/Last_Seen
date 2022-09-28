@@ -25,7 +25,7 @@ class AppearanceAdmin(admin.ModelAdmin):
         (None, {'fields': ['character_name', 'date_of_appearance']}),
         ('Additional Info', {'fields': ['twitch_clip_URL', 'clip_Streamer', 'publish_time']}),
     ]
-    list_display = ('character_name', 'date_of_appearance', 'twitch_clip_URL', 'clip_Streamer', 'publish_time', 'recently_published')
+    list_display = ('character_name', 'date_of_appearance', 'twitch_clip_URL', 'clip_Streamer', 'publish_time', 'recently_published', 'recently_appeared')
     list_filter= ['date_of_appearance']
     search_fields = ['character_name']
 

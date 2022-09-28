@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
     #object that is passed into the template
     context_object_name = 'latest_character_list'
     #number of characters per page before pagination
-    paginate_by = 501
+    paginate_by = 203
     #object model that is to be displayed int he list
     model = rpCharacter
     #in which order the list/queryset is to be displayed
@@ -111,9 +111,13 @@ class searchResults(generic.ListView):
 class createCharacterEntry(generic.FormView):
     template_name = 'lastSeenRP/create.html'
     form_class = createCharacter
+
+    #make validation function, error message if exists
+
+
     #save the character object
     def form_valid(self, form):
-
+        
         character= form.save()
         self.character_first_name = character.character_first_name
         self.character_last_name = character.character_last_name
@@ -122,9 +126,10 @@ class createCharacterEntry(generic.FormView):
         return super(createCharacterEntry, self).form_valid(form)
     #if the data is valid redirects to the newly created page of the user submitted data
     def get_success_url(self):
-        #print(self.character_first_name, "|||self field")
-        #print(self.character_last_name, "||| self field")
-        return reverse('lastSeenRP:character', args={self.character_first_name, self.character_last_name})
+        #print("My first name is ", self.character_first_name)
+        #print("My last name is ", self.character_last_name)
+        #return reverse('lastSeenRP:character', args={self.character_first_name, self.character_last_name})
+        return reverse('lastSeenRP:character', kwargs={'character_FName': self.character_first_name, 'character_LName': self.character_last_name})
         #return reverse('lastSeenRP:index')
     
     

@@ -62,7 +62,7 @@ for i in range(0, 4141):
         r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=fullLastName, character_played_by=groupList, streamers_URL=splitList[5], character_image=splitList[6])
     #if they didn't provide username
     else:
-        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=fullLastName, character_image=splitList[6])
+        r = rpCharacter(character_first_name=splitList[0], character_nick_name=splitList[1], character_last_name=fullLastName, character_played_by="Unknown", streamers_URL="Unknown", character_image=splitList[6])
     #save each object into the DB
     r.save()
     

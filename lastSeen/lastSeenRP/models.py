@@ -21,14 +21,20 @@ class rpCharacter(models.Model):
     character_image = models.CharField(max_length=200, blank=True)
     streamers_URL = models.CharField(max_length=60, blank=True)
 
-    #default="https://static.wikia.nocookie.net/nopixel/images/5/5f/Placeholder.jpg"
-
     class Meta:
         unique_together = ["character_first_name", "character_last_name"]
 
     def __str__(self):
         return self.character_first_name + ', ' + self.character_nick_name + ', ' + self.character_last_name + ', ' + self.character_played_by + ', ' + self.streamers_URL + ', ' + self.character_image
-    
+
+    def save(self):
+        if self.character_played_by == '':
+            self.character_played_by = 'Unknown'
+        if self.character_image == '':
+            self.character_image = "https://static.wikia.nocookie.net/nopixel/images/5/5f/Placeholder.jpg"
+        if self.streamers_URL == '':
+            self.streamers_URL = 'Unknown'
+        super().save()
 
 class Appearance(models.Model):
     #future fields to be added
@@ -47,16 +53,32 @@ class Appearance(models.Model):
 
     @admin.display(
         boolean=True,
-        ordering='date_of_appearance', 
-        description='recently appeared',
+        ordering='publish_time', 
+        description='recently published',
     )
     #try to troubleshoot why some appearances made within the past hour aren't recent but more than a day are
     #change published to recently seen
     def recently_published(self):
         now = pytz.UTC.localize(datetime.now())
         #return self.publish_time >= datetime.now() - timedelta(days=1)
+        return now - timedelta(days=7) <= self.publish_time <= now + timedelta(hours=1)
+        #order appearances by their earliest known appearance
+    class Meta:
+        ordering = ('-publish_time',)
+
+    @admin.display(
+        boolean=True,
+        ordering='date_of_appearance', 
+        description='recently appeared (7 days)',
+    )
+    #try to troubleshoot why some appearances made within the past hour aren't recent but more than a day are
+    #change published to recently seen
+    def recently_appeared(self):
+        now = pytz.UTC.localize(datetime.now())
+        #return self.publish_time >= datetime.now() - timedelta(days=1)
         return now - timedelta(days=7) <= self.date_of_appearance <= now + timedelta(hours=1)
         #order appearances by their earliest known appearance
     class Meta:
         ordering = ('-date_of_appearance',)
+    
     
