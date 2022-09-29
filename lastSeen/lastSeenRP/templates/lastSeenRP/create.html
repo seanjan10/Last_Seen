@@ -11,24 +11,12 @@
         {% csrf_token %}
           <fieldset>
             <legend>Create a character entry </legend>
-              {% if error_message %} <p><strong>{{error_message}}</strong></p> {% endif %}
-                <label for="characterFirstName">Character First Name : </label>
-                {{form.character_first_name}}
-                <br>
-                <label for="characterNickName">Character Nick Name : </label> 
-                {{form.character_nick_name}}
-                <br>
-                <label for="characterLastName">Character Last Name : </label> 
-                {{form.character_last_name}}
-                <br>
-                <label for="characterPlayedBy">Character Played By : </label> 
-                {{form.character_played_by}}
-                <br>
-                <label for="characterImage">URL of Character Image : </label> 
-                {{form.character_image}}
-                <br>
-                <label for="streamersURL">URL of the Players Stream : </label>
-                {{form.streamers_URL}}
+              {% for field in form %}
+              <div class="fieldWrapper">
+                {{field.errors}}
+                {{field.label_tag}} {{field}}
+              {%endfor%}
+            </div>
           </fieldset>
         <input type="submit" value="Submit new character entry">
         </form>

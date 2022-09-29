@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
 import pytz
+from lastSeenRP.validators import *
 from django.contrib import admin
 
 # Create your models here.
@@ -12,14 +13,15 @@ class rpCharacter(models.Model):
     #optional middle name/nickname field
     #link to an image of the character
     #additional linkes to their youtube/twitch if they have it
-    character_first_name = models.CharField(max_length=30)
-    character_nick_name = models.CharField(max_length=50, default="", blank=True)
+    character_first_name = models.CharField(max_length=30, validators=[validate_character_first_name])
+    character_nick_name = models.CharField(max_length=50, default="", blank=True, validators=[validate_character_nick_name])
     #currently all names except first are considered last name or nick name
-    character_last_name = models.CharField(max_length=50)
+    character_last_name = models.CharField(max_length=50, validators=[validate_character_last_name])
     #if info about who plays a character isn't available, then display unknown
     character_played_by = models.CharField(max_length=50,  blank=True)
-    character_image = models.CharField(max_length=200, blank=True)
-    streamers_URL = models.CharField(max_length=60, blank=True)
+    character_image = models.URLField(max_length=200, blank=True, validators=[validate_character_image])
+    #streamers_URL = models.CharField(max_length=60, blank=True)
+    streamers_URL = models.URLField(max_length=60, blank=True, validators=[validate_streamer_url])
 
     class Meta:
         unique_together = ["character_first_name", "character_last_name"]
@@ -43,7 +45,8 @@ class Appearance(models.Model):
     #change times to only include UTC time
     #username of reddit user etc who submitted the appearance
     character_name = models.ForeignKey(rpCharacter, on_delete=models.CASCADE)
-    twitch_clip_URL = models.CharField(max_length=100)
+    #twitch_clip_URL = models.CharField(max_length=100)
+    twitch_clip_URL = models.URLField(max_length=100)
     date_of_appearance = models.DateTimeField('date and time that the character showed up')
     clip_Streamer = models.CharField(max_length=50) #in case the clip gets deleted they can find the streamers vod and watch
     publish_time = models.DateTimeField('date and time a user submitted this post', default= pytz.UTC.localize(datetime.now()))
