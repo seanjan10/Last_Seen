@@ -17,11 +17,11 @@
     {% if character_id.streamers_URL == "Unknown" %}
       <h2> Played by {{character_id.character_played_by}} </h2>
     {%else%}
-      <h2> Played by <a href={{character_id.streamers_URL}}>{{character_id.character_played_by}} </a></h2>
+      <h2> Played by <a href="{{character_id.streamers_URL}}">{{character_id.character_played_by}} </a></h2>
     {%endif%}
     <ul>
       {% for appear in character_id.appearance_set.all %}
-          <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
+          <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}" target="_blank"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
     {% empty %}
       <li> This character has no appearances in the database. Would you like to create one?</li>
       {% endfor %}
@@ -33,15 +33,12 @@
       {% csrf_token %}
         <fieldset>
           <legend>Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</legend>
-            {% if error_message %} <p><strong>{{error_message}}</strong></p> {% endif %}
-              <label for="clipURL_label">Twitch clip URL: </label>
-              {{form.clipURL}}
-              <br>
-              <label for="dateAndTime">Date of appearance (UTC Time): </label> 
-              {{form.dateOfAppearance}}
-              <br>
-              <label for="clipStreamer">Channel of the clip: </label>
-              {{form.channelName}}
+        {% for field in form %}
+          <div class="fieldWrapper">
+            {{field.errors}}
+            {{field.label_tag}} {{field}}
+          {%endfor%}
+          </div>
         </fieldset>
       <input type="submit" value="Submit new appearance">
     </form>

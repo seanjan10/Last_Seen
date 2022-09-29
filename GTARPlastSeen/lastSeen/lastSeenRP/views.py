@@ -50,10 +50,10 @@ def character(request, character_FName, character_LName):
 def resubmit(request, character_FName, character_LName):
     #retrieve the id of the character based off the first and last name
     character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
+    #display a new form after attempt
+    form = createAppearanceForm(request.POST)
     #if the user attempted to send data by POST
     if request.method == 'POST':
-        #display a new form after attempt
-        form = createAppearanceForm(request.POST)
         #print(character_id)
         
         #if the data entered passes validation checks
@@ -73,12 +73,12 @@ def resubmit(request, character_FName, character_LName):
         #if the data entered did not pass validation checks 
         else:
             #create a new form
-            form = createAppearanceForm()
+            #form = createAppearanceForm()
             #return an error message as they didn't input their data correctly
             return render(request, 'lastSeenRP/character.html', {
                 'character_id': character_id,
                 'form': form, 
-                'error_message': "Error: you either entered incorrect data or mistyped",  
+                #'error_message': "Error: you either entered incorrect data or mistyped",  
                 })
 
 
@@ -114,6 +114,19 @@ class createCharacterEntry(generic.FormView):
 
     #make validation function, error message if exists
 
+    #invalid if the user submits a user that is already defined in the database
+    def form_invalid(self, form):
+        #print(form.cleaned_data['character_first_name'])
+        try: 
+            fName = form.cleaned_data['character_first_name']
+        except KeyError:
+           # messages.error(self.request, "First names cannot include spaces. Additional names should be added into the last name box. Characters that are allowed are (-, ', .)")
+            return super(createCharacterEntry, self).form_invalid(form)
+        lName = form.cleaned_data['character_last_name']
+        
+        if rpCharacter.objects.filter(character_first_name=fName, character_last_name=lName).exists():
+            messages.error(self.request, "ERROR: You can not submit a character that is already in the database.")
+        return super(createCharacterEntry, self).form_invalid(form)
 
     #save the character object
     def form_valid(self, form):
@@ -124,12 +137,9 @@ class createCharacterEntry(generic.FormView):
         messages.success(self.request, "Successfully inserted character into the database")
 
         return super(createCharacterEntry, self).form_valid(form)
+
     #if the data is valid redirects to the newly created page of the user submitted data
     def get_success_url(self):
-        #print("My first name is ", self.character_first_name)
-        #print("My last name is ", self.character_last_name)
-        #return reverse('lastSeenRP:character', args={self.character_first_name, self.character_last_name})
         return reverse('lastSeenRP:character', kwargs={'character_FName': self.character_first_name, 'character_LName': self.character_last_name})
-        #return reverse('lastSeenRP:index')
     
     
