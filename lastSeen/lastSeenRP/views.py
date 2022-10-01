@@ -99,13 +99,16 @@ class searchResults(generic.ListView):
     def get_queryset(self):
         query = self.request.GET.get("searchQuery")
         print(query)
-        #search fName, nick name, Lname, and streamer name for the user search query
-        search_results_list = rpCharacter.objects.filter(
-        Q(character_first_name__icontains=query) 
-        | Q(character_nick_name__icontains=query) 
-        | Q(character_last_name__icontains=query) 
-        | Q(character_played_by__icontains=query)
-        )
+        #search fName, nick name, Lname, and streamer name for the user search query, now works for multiple words
+        search_results_list = rpCharacter.objects.all()
+        for term in query.split():
+
+            search_results_list = search_results_list.filter(
+            Q(character_first_name__icontains=term) 
+            | Q(character_nick_name__icontains=term) 
+            | Q(character_last_name__icontains=term) 
+            | Q(character_played_by__icontains=term)
+            )
         return search_results_list
 
 class createCharacterEntry(generic.FormView):
