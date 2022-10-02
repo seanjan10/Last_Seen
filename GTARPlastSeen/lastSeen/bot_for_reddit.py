@@ -17,36 +17,52 @@ from django.shortcuts import get_object_or_404
 #global vars
 redditUsername = config('redditUsername')
 endString = f"\n\n*This action was automated by a bot. It has no affiliation to the Staff or Owner of NoPixel. You can contact the owner of this bot [here.](https://www.reddit.com/user/{redditUsername})*"
-myURL = "http://127.0.0.1:8000/lastSeenRP/"
+myURL = "http://127.0.0.1:8000/lastSeenRP/create"
 
 
 def redditResponseToRecentAppearances(data, mention):
     data.pop(0)
     print("you selected to list the last 5 appearances of a character")
-    if len(data) == 2:
-        fName = data[0]
-        lName = data[1]
-        try:
-            character = rpCharacter.objects.get(character_first_name=fName, character_last_name=lName)
-        except ObjectDoesNotExist:
-            mention.reply(body=f"ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at {myURL}{endString}")
-            mention.mark_read()
-            return
-        characterAppearances = Appearance.objects.filter(character_name=character)
-        latestAppearances = characterAppearances.order_by('-date_of_appearance')[:]
-        strAppearance = ''
-        if not latestAppearances:
-            mention.reply(body=f"{fName} {character.character_nick_name} {lName} has no appearances saved in the database. {endString}")
-            mention.mark_read()
-        else:
-            for appearance in latestAppearances:
-                appearTime = appearance.date_of_appearance.strftime("%b. %d, %Y, %H:%M")
-                pubTime = appearance.publish_time.strftime("%b. %d, %Y, %H:%M")
-                strAppearance = strAppearance + f"* appeared on {appearTime} on [{appearance.clip_Streamer}]({appearance.twitch_clip_URL})'s stream. Updated at {pubTime}\n\n"
+    if len(data) % 2 == 0:
+        reply_template = ""
+        #multiple names inputted
+        while len(data) > 0:
+            #get first character name
+            fName = data[0]
+            lName = data[1]
+            lNameRemoveUnderscore = lName.replace("_", " ")
+            #remove from the list for the upcoming characters if they exist
+            del data[0], data[0]
+            try:
+                character = rpCharacter.objects.get(character_first_name=fName, character_last_name=lName)
+                characterAppearances = Appearance.objects.filter(character_name=character)
+                latestAppearances = characterAppearances.order_by('-date_of_appearance')[:5]
+                strAppearance = ''
+                
+                if not latestAppearances:
+                    mention.reply(body=f"{fName} {character.character_nick_name} {lNameRemoveUnderscore} has no appearances saved in the database. {endString}")
+                    mention.mark_read()
+                else:
+                    for appearance in latestAppearances:
+                        appearTime = appearance.date_of_appearance.strftime("%b. %d, %Y, %H:%M")
+                        pubTime = appearance.publish_time.strftime("%b. %d, %Y, %H:%M")
+                        strAppearance = strAppearance + f"* appeared on {appearTime} on [{appearance.clip_Streamer}]({appearance.twitch_clip_URL})'s stream. Updated at {pubTime}\n\n"
+                if len(data) == 0:
+                    reply_template = reply_template + f"Recent appearances for {fName} {character.character_nick_name} {lNameRemoveUnderscore}\n\n{strAppearance}{endString}"  
+                    mention.reply(body=reply_template)
+                    mention.mark_read() 
+                else:
+                    reply_template = reply_template + f"Recent appearances for {fName} {character.character_nick_name} {lNameRemoveUnderscore}\n\n{strAppearance}"  
 
-        reply_template = f"Recent appearances for {fName} {character.character_nick_name} {lName}\n\n{strAppearance}{endString}"  
-        mention.reply(body=reply_template)
-        mention.mark_read() 
+            except ObjectDoesNotExist:
+                #mention.reply(body=f"ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at {myURL}{endString}")
+                #mention.mark_read()
+                if len(data) == 0:
+                    reply_template = reply_template + f"ERROR: {fName} {lNameRemoveUnderscore} does not exist. If this character does exist then they have not been entered into the database. This can be done [HERE.]({myURL}){endString}"
+                    mention.reply(body=reply_template)
+                    mention.mark_read() 
+                else:
+                    reply_template = reply_template +f"ERROR: {fName} {lNameRemoveUnderscore} does not exist. If this character does exist then they have not been entered into the database. This can be done [HERE.]({myURL})\n\n"
     else:
         mention.reply(body=f"ERROR: Incorrect Number of arguments. Please only provide the first and last name of the character. (e.g. /u/NoPixelAppearanceBot create_appearance Avon Barksdale).\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance Arush Patel_Santana{endString}")
         mention.mark_read()
@@ -58,7 +74,12 @@ def redditResponseToCreateAppearance(data, parentPost, mention):
     #remove from list since no longer necessary
     data.pop(0)
     print('you selected to create an appearance')
-    if len(data) == 3:
+    ##if len(data) == 3:
+    clipStreamerName = data[0]
+    data.pop(0)
+    #print(len(data))
+    #print(data)
+    if len(data) % 2 == 0:
         now = pytz.UTC.localize(datetime.now())
         clipURL = parentPost.url
 
@@ -73,25 +94,43 @@ def redditResponseToCreateAppearance(data, parentPost, mention):
         #convert POSIX time to utc time
         appearanceTime = datetime.utcfromtimestamp(parentPost.created_utc)
         user_who_submitted = mention.author
-        characterFName = data[0]
-        characterLName = data[1]
-        clipStreamerName = data[2]
-        #print(f'Created a new appearance for: First name = {characterFName}, Last Name = {characterLName}, Streamer = {clipStreamerName}')
+        reply_template = ""
+        while len(data) > 0:
 
-        try:
-            character = rpCharacter.objects.get(character_first_name=firstName, character_last_name=lastName)
-            appearance = createAppearance(character, clipURL, appearanceTime, clipStreamerName, now)
-        except ObjectDoesNotExist:
-            #print("ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at www.url.com")
-            mention.reply(body=f"ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at {myURL}{endString}")
-            mention.mark_read()
-            return
-        reply_template = f"New appearance created for {characterFName} {character.character_nick_name} {characterLName}! View other appearances by this character [HERE.](http://127.0.0.1:8000/lastSeenRP/character/{characterFName}_{characterLName}/){endString}"
-        mention.reply(body=reply_template)
-        mention.mark_read()
+            characterFName = data[0]
+            characterLName = data[1]
+            lNameRemoveUnderscore = characterLName.replace("_", " ")
+            #clipStreamerName = data[2]
+            #print(f'Created a new appearance for: First name = {characterFName}, Last Name = {characterLName}, Streamer = {clipStreamerName}')
+            #remove the first 3 values to read the next 3
+            del data[0], data[0]
+            try:
+                character = rpCharacter.objects.get(character_first_name=characterFName, character_last_name=characterLName)
+                appearance = createAppearance(character, clipURL, appearanceTime, clipStreamerName, now)
+                
+                if len(data) == 0:
+                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](http://127.0.0.1:8000/lastSeenRP/character/{characterFName}_{characterLName}/){endString}"
+                    mention.reply(body=reply_template)
+                    mention.mark_read()
+                else:
+                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](http://127.0.0.1:8000/lastSeenRP/character/{characterFName}_{characterLName}/)\n\n"
+
+            except ObjectDoesNotExist:
+                #print("ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at www.url.com")
+                #mention.reply(body=f"ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at {myURL}{endString}")
+                #mention.mark_read()
+
+                if len(data) == 0:
+                    reply_template = reply_template +f"ERROR: {characterFName} {lNameRemoveUnderscore} does not exist. If this character does exist then they have not been entered into the database. This can be done [HERE.]({myURL}){endString}"
+                    mention.reply(body=reply_template)
+                    mention.mark_read()
+                else:
+                    reply_template = reply_template +f"ERROR: {characterFName} {lNameRemoveUnderscore} does not exist. If this character does exist then they have not been entered into the database. This can be done [HERE.]({myURL})\n\n"
+                
+
     else:
         #print("ERROR: Incorrect Number of arguments. Please only provide the first and last name of the character, and the name of the channel where you clipped from. (e.g. /u/NoPixelAppearanceBot create_appearance Avon Barksdale LIRIK).\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance Arush Patel_Santana SayeedBlack")
-        mention.reply(body=f"ERROR: Incorrect Number of arguments. Please only provide the first and last name of the character, and the name of the channel where you clipped from. (e.g. /u/NoPixelAppearanceBot create_appearance Avon Barksdale LIRIK).\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance Arush Patel_Santana SayeedBlack{endString}")
+        mention.reply(body=f"ERROR: Incorrect Number of arguments. Please only provide the name of the channel where you clipped from and the first and last name of the character(s). (e.g. /u/NoPixelAppearanceBot create_appearance LIRIK Avon Barksdale).\n\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance SayeedBlack Arush Patel_Santana).\n\nFor multiple characters, add them after the first character and so on. (e.g. /u/NoPixelAppearanceBot LIRIK Avon Barksdale Lang Buddha).{endString}")
         mention.mark_read()
     
 
@@ -132,8 +171,6 @@ def main():
         print(mention.new)
         if mention.new == True:
             if (mention.subreddit == 'test' or mention.subreddit == 'RPClipsGTA'):
-                print("-----------------------------------------")
-                print("-----------------------------------------")
                 print(f'{mention.author}\n{mention.body}')
 
                 data = mention.body.split()
@@ -151,6 +188,8 @@ def main():
                 print("Won't respond to unwhitelisted sub")
         else:
             print('I have seen this message already, send me something new.')
+        print("-----------------------------------------")
+        print("-----------------------------------------")
     
 
 
