@@ -1,56 +1,40 @@
+{% extends 'lastSeenRP/base.html' %}
 {%load static%}
 {%load filters %}
-<!DOCTYPE html>
-<html lang="en-US">
 
-  <head>
-    <meta charset="utf-8">
-    <title>My test page</title>
-    <link rel="stylesheet" href="{% static 'lastSeenRP/style.css' %}">
-    <link rel="icon" type="image/jpg" href="{%static 'lastSeenRP/images/binoculars.jpg' %}">
-  </head>
-  <body>
-    <div class="search">
-        <form action="{% url 'lastSeenRP:search' %}" method='GET'>
-        <label for="searchLabel">Search for a character or a streamer</label>
-        {{form.searchQuery}}
-        <input type="submit" value="Search">
-        </form>
-    </div>
-
-    <a href="{% url 'lastSeenRP:create' %}">Create Character Entry </a>
+{%block content%}
         <div class="character_list">
         {%if latest_character_list %}
             <ul>
-            {% for character in latest_character_list%}
-                
-            <li> <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
-                {% comment %}
-                    <li><a href="/lastSeenRP/character/{{character.character_first_name}}_{{character.character_last_name}}/">{{character.character_first_name}} {{character.character_last_name}} ({{character.character_played_by}})</a></li> 
-                {% endcomment %} 
+            {% for character in latest_character_list%} 
+                <li> <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
             {% endfor %}
         {% else %}
             <p> No characters are available. </p>
         {% endif %}
         </div>
+        <nav>
+                <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></li>
+                {%else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                {% endif %}
 
-    <div class="pagination">
-      <span class="step-links">
-          {% if page_obj.has_previous %}
-              <a href="?page=1">&laquo; first</a>
-              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-          {% endif %}
-  
-          <span class="current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-          </span>
-  
-          {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}">next</a>
-              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-          {% endif %}
-      </span>
-  </div>
-    
-  </body>
-</html>
+                <li class="page-item active"><a class="page-link" href="?page={{page_obj.number}}">{{page_obj.number}}<span class="sr-only">(current)</span></a></li>
+
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                {%else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                {% endif %}
+                </ul>
+        </nav>
+{%endblock content%}

@@ -5,6 +5,19 @@ from django.utils.translation import gettext_lazy as _
 import pytz
 
 
+def valid_ascii_character(value, isNickName):
+    if isNickName == True:
+        blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>']
+    else:
+        blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>', '\"']
+    
+
+    if any(ch in blackListChars for ch in value):
+        return False
+    else:
+        return True
+
+
 def validate_character_nick_name(value):
     if value.startswith('\"') and value.endswith('\"'):
             return value
@@ -12,6 +25,10 @@ def validate_character_nick_name(value):
         raise ValidationError(
             _("Nick names should be enclosed with quotation marks. (\"\")")
         )
+    if valid_ascii_character(value, True) == False:
+        raise ValidationError(
+            _("Names can only include alphanumerical characters as well as (\" - \", \" ' \", \" . \", \" _ \", for nick names quotation marks (\") are also allowed)")
+    )
 
 def validate_character_last_name(value):
     #print("does it get here")
@@ -20,6 +37,11 @@ def validate_character_last_name(value):
         raise ValidationError(
             _("Last names cannot include spaces. Instead use underscores( _ ). Additional Characters that are allowed are (-, ', .)")
         )
+    if valid_ascii_character(value, False) == False:
+        raise ValidationError(
+            _("Names can only include alphanumerical characters as well as (\" - \", \" ' \", \" . \", \" _ \", for nick names quotation marks (\") are also allowed)")
+        )
+    
     return value
 
 def validate_character_first_name(value):
@@ -28,6 +50,11 @@ def validate_character_first_name(value):
         #print("lets see if it gets here")
         raise ValidationError(
             _("First names cannot include spaces. Additional names should be added into the last name box. Characters that are allowed are (-, ', .)")
+        )
+
+    if valid_ascii_character(value, False) == False:
+        raise ValidationError(
+            _("Names can only include alphanumerical characters as well as (\" - \", \" ' \", \" . \", \" _ \", for nick names quotation marks (\") are also allowed)")
         )
     return value
 

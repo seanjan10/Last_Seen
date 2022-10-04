@@ -14,7 +14,7 @@ class createAppearanceForm(forms.Form):
 
 
 class searchForCharacter(forms.Form):
-    searchQuery = forms.CharField(label="Search by character or streamer name", max_length=60, widget=forms.TextInput(attrs={'placeholder': 'Search by character or streamer name'}))
+    searchQuery = forms.CharField(label="Search", max_length=60, widget=forms.TextInput(attrs={'placeholder': 'Search', 'class':'form-control mr-sm-2', 'type':'search', 'aria-label':'Search'}))
 
 class createCharacter(forms.ModelForm):
 
