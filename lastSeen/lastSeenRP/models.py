@@ -23,6 +23,7 @@ class rpCharacter(models.Model):
     #streamers_URL = models.CharField(max_length=60, blank=True)
     streamers_URL = models.URLField(max_length=60, blank=True, validators=[validate_streamer_url])
 
+
     class Meta:
         unique_together = ["character_first_name", "character_last_name"]
 
@@ -45,7 +46,7 @@ class Appearance(models.Model):
     date_of_appearance = models.DateTimeField('date and time that the character showed up')
     clip_Streamer = models.CharField(max_length=50) #in case the clip gets deleted they can find the streamers vod and watch
     publish_time = models.DateTimeField('date and time a user submitted this post', default= pytz.UTC.localize(datetime.now()))
-    submittedBy = models.CharField(max_length=25, default="")
+    submittedBy = models.CharField(max_length=25, default="", blank=True)
     def __str__(self):
         return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%Y-%m-%d, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
     #should change to recently appeared, or make a new func

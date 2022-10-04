@@ -122,10 +122,11 @@ class createCharacterEntry(generic.FormView):
         #print(form.cleaned_data['character_first_name'])
         try: 
             fName = form.cleaned_data['character_first_name']
+            lName = form.cleaned_data['character_last_name']
         except KeyError:
            # messages.error(self.request, "First names cannot include spaces. Additional names should be added into the last name box. Characters that are allowed are (-, ', .)")
             return super(createCharacterEntry, self).form_invalid(form)
-        lName = form.cleaned_data['character_last_name']
+        #lName = form.cleaned_data['character_last_name']
         
         if rpCharacter.objects.filter(character_first_name=fName, character_last_name=lName).exists():
             messages.error(self.request, "ERROR: You can not submit a character that is already in the database.")
