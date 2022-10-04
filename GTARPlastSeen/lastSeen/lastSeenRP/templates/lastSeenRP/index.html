@@ -7,7 +7,11 @@
         {%if latest_character_list %}
             <ul>
             {% for character in latest_character_list%} 
-                <li> <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">{{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a></li> 
+                <li> 
+                    <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> 
+                    <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">
+                        {{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a>
+                    </li> 
             {% endfor %}
         {% else %}
             <p> No characters are available. </p>

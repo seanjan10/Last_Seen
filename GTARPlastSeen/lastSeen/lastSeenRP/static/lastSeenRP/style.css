@@ -25,11 +25,45 @@ li {
 
 .pagination a.active {
   background-color: #4CAF50;
-  color: white;
   border-radius: 5px;
 }
 
 .pagination a:hover:not(.active) {
-  background-color: #ddd;
   border-radius: 5px;
+}
+
+.characterImageAndPlayedBy {
+  float: right;
+  padding: 5%;
+  display: block;
+}
+
+.characterName {
+  text-align: center;
+}
+
+.Appearances {
+  padding-left: 5%;
+}
+
+ul.characterList {
+  padding-left: 5%;
+  padding-top: 5%;
+  padding-bottom: 10%;
+  display:flex;
+  flex-direction: column;
+}
+
+.create_fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create_header {
+  text-align: center;
+}
+
+.create_button {
+  padding-top: 5%;
 }

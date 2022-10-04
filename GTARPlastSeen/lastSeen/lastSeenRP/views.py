@@ -28,13 +28,14 @@ class IndexView(generic.ListView):
     #get a form object to display the search bar
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context["form"] = searchForCharacter()
+        context["formSearch"] = searchForCharacter()
         return context
 
 #view to display the characters page with a list of all their appearances
 def character(request, character_FName, character_LName):
     #form context objects to be passed into the template
-    form = createAppearanceForm()
+    formCreate = createAppearanceForm()
+    formSearch = searchForCharacter()
 
     #print(character_FName)
     #print(character_LName)
@@ -44,24 +45,25 @@ def character(request, character_FName, character_LName):
 
     #print(character_id)
     #render the template with context variables to be displayed to the user
-    return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'form':form})
+    return render(request, 'lastSeenRP/character.html', {'character_id': character_id, 'formCreate':formCreate, 'formSearch':formSearch})
 
 #view to display when the user attempts to enter an appearance under a character
 def resubmit(request, character_FName, character_LName):
     #retrieve the id of the character based off the first and last name
     character_id = get_object_or_404(rpCharacter, character_first_name=character_FName, character_last_name=character_LName)
     #display a new form after attempt
-    form = createAppearanceForm(request.POST)
+    formSearch = searchForCharacter()
+    formCreate = createAppearanceForm(request.POST)
     #if the user attempted to send data by POST
     if request.method == 'POST':
         #print(character_id)
         
         #if the data entered passes validation checks
-        if form.is_valid():
+        if formCreate.is_valid():
             #retrieve data from the form and use it to create an Appearance
-            u = form.cleaned_data["clipURL"]
-            d = form.cleaned_data["dateOfAppearance"]
-            c = form.cleaned_data["channelName"]
+            u = formCreate.cleaned_data["clipURL"]
+            d = formCreate.cleaned_data["dateOfAppearance"]
+            c = formCreate.cleaned_data["channelName"]
             #as of now, time is stored in UTC time
             a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=pytz.UTC.localize(datetime.now()))
             #enter record into the Database
@@ -77,15 +79,16 @@ def resubmit(request, character_FName, character_LName):
             #return an error message as they didn't input their data correctly
             return render(request, 'lastSeenRP/character.html', {
                 'character_id': character_id,
-                'form': form, 
+                'formCreate': formCreate, 
+                'formSearch':formSearch,
                 #'error_message': "Error: you either entered incorrect data or mistyped",  
                 })
 
-
+#TODO: pagination for search queries
 class searchResults(generic.ListView):
     template_name = 'lastSeenRP/search.html'
     context_object_name = 'search_results_list'
-    #paginate_by = 501
+    paginate_by = 203
     model = rpCharacter()
 
     #get context variables to be displayed in teh search page, the form and the query the user entered
@@ -145,5 +148,11 @@ class createCharacterEntry(generic.FormView):
     #if the data is valid redirects to the newly created page of the user submitted data
     def get_success_url(self):
         return reverse('lastSeenRP:character', kwargs={'character_FName': self.character_first_name, 'character_LName': self.character_last_name})
+
+    def get_context_data(self, **kwargs):
+        context = super(createCharacterEntry, self).get_context_data(**kwargs)
+        context["formSearch"] = searchForCharacter()
+        return context
+    
     
     
