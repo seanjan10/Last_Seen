@@ -1,24 +1,25 @@
+{% extends 'lastSeenRP/base.html' %}
 {%load filters%}
-<!DOCTYPE html> 
-<html lang="en-US">
 
-<head>
-    <title>Create Character Entry </title>
-</head>
-<body>
-    
+    {%block title%}
+    Create Character Entry 
+    {%endblock title%}
+
+    {%block content%}
     <form action ="{% url 'lastSeenRP:create' %}" method="post">
         {% csrf_token %}
-          <fieldset>
-            <legend>Create a character entry </legend>
+          
+            <h1 class="create_header">Create a character entry </h1>
               {% for field in form %}
-              <div class="fieldWrapper">
+              <div class="create_fieldWrapper">
                 {{field.errors}}
                 {{field.label_tag}} {{field}}
               {%endfor%}
             </div>
           </fieldset>
-        <input type="submit" value="Submit new character entry">
+        <div class="create_button">
+          <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
         </form>
         {%if messages %}
         {% for message in messages %}
@@ -26,10 +27,4 @@
         {% endfor %}
     {% endif %}
 
-
-</body>
-
-
-
-
-</html>
+{%endblock content%}
