@@ -96,12 +96,12 @@ class searchResults(generic.ListView):
         context = super(searchResults, self).get_context_data(**kwargs)
         context["search_query"] = self.request.GET.get("searchQuery")
         context["formSearch"] = searchForCharacter()
-        print(type(context))
+        #print(type(context))
         return context
     #list of characters that match the search query
     def get_queryset(self):
         query = self.request.GET.get("searchQuery")
-        print(query)
+        #print(query)
         #search fName, nick name, Lname, and streamer name for the user search query, now works for multiple words
         search_results_list = rpCharacter.objects.all()
         for term in query.split():
