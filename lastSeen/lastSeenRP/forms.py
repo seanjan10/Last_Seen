@@ -1,6 +1,7 @@
 from django import forms
 from lastSeenRP.models import rpCharacter
 from lastSeenRP.validators import *
+from django.utils.translation import gettext_lazy as _
 
 class createAppearanceForm(forms.Form):
     #clipURL is the video of the character making an appearance, originally made for twitch clips but may be expanded to youtube, facebook and streamable
@@ -29,11 +30,20 @@ class createCharacter(forms.ModelForm):
         'streamers_URL' ]
 
         widgets= {
-            'character_first_name': forms.TextInput(attrs={'placeholder': 'Character First Name'}), 
-            'character_nick_name': forms.TextInput(attrs={'placeholder': 'Character Nick Name'}),
-            'character_last_name': forms.TextInput(attrs={'placeholder': 'Character Last Name'}),
-            'character_played_by': forms.TextInput(attrs={'placeholder': 'Username of the player'}),
-            'character_image': forms.TextInput(attrs={'placeholder': 'Image URL of character'}),
-            'streamers_URL': forms.TextInput(attrs={'placeholder': 'URL of the players stream'})
+            'character_first_name': forms.TextInput(attrs={'placeholder': 'Character First Name', 'class': 'form-control'}), 
+            'character_nick_name': forms.TextInput(attrs={'placeholder': 'Character Nick Name', 'class': 'form-control'}),
+            'character_last_name': forms.TextInput(attrs={'placeholder': 'Character Last Name', 'class': 'form-control'}),
+            'character_played_by': forms.TextInput(attrs={'placeholder': 'Username of the player', 'class': 'form-control'}),
+            'character_image': forms.TextInput(attrs={'placeholder': 'Image URL of character', 'class': 'form-control'}),
+            'streamers_URL': forms.TextInput(attrs={'placeholder': 'URL of the players stream', 'class': 'form-control'})
             
         }
+        labels = {
+                'character_first_name': 'First Name',
+                'character_nick_name': 'Nick Name',
+                'character_last_name': 'Last Name', 
+                'character_played_by': 'Played By',
+                'character_image': 'Image URL',
+                'streamers_URL': 'Streamer URL'
+        }
+    

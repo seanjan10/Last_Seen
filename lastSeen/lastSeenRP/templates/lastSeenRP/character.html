@@ -7,7 +7,7 @@
     {%endblock title%}
 
     {%block content%}
-      <div class="characterImageAndPlayedBy">
+      <div class="character-description">
         <img src="{{character_id.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="300" height="400">
         {% if character_id.streamers_URL == "Unknown" %}
           <h2> Played by {{character_id.character_played_by}} </h2>
@@ -16,12 +16,12 @@
         {%endif%}
       </div>
 
-      <div class="characterName">
+      <div class="character-name">
         <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name|readd_whitespace}} </h1>
       </div>
 
-      <div class="characterAppearances">
-        <ul class="characterList">
+      <div class="character-appearance">
+        <ul class="character-appearance__list">
           {% for appear in character_id.appearance_set.all %}
               <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}" target="_blank"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
               
@@ -35,7 +35,7 @@
       <!--<form action="?" method="post"> -->
         <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
         {% csrf_token %}
-          <div class="Appearances">
+          <div class="character_Appearances">
             <h2 class="appHeading">Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</h2>
           {% for field in formCreate %}
             <div class="fieldWrapper">

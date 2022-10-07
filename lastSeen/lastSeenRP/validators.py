@@ -3,32 +3,44 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 import pytz
-
+import re
 
 def valid_ascii_character(value, isNickName):
     if isNickName == True:
-        blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>']
+        #blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>']
+        pattern = "([A-Za-z0-9\-\'\.\_\"])+"
     else:
-        blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>', '\"']
-    
+        #blackListChars = [',', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '+', '[', ']', '{', '}', '|', '\\', ':', ';', '~', '`', '?', '/' , '<', '>', '\"']
+        pattern = "([A-Za-z0-9\-\'\.\_])+"
 
+    x = re.fullmatch(pattern, value)
+    #print(x)
+    if x == None:
+        return False
+    else: 
+        return True
+
+
+    '''
     if any(ch in blackListChars for ch in value):
         return False
     else:
         return True
+    '''
 
 
 def validate_character_nick_name(value):
+
+    if valid_ascii_character(value, True) == False:
+        raise ValidationError(
+            _("Names can only include alphanumerical characters as well as (\" - \", \" ' \", \" . \", \" _ \", for nick names quotation marks (\") are also allowed)")
+    )
     if value.startswith('\"') and value.endswith('\"'):
             return value
     else:
         raise ValidationError(
             _("Nick names should be enclosed with quotation marks. (\"\")")
         )
-    if valid_ascii_character(value, True) == False:
-        raise ValidationError(
-            _("Names can only include alphanumerical characters as well as (\" - \", \" ' \", \" . \", \" _ \", for nick names quotation marks (\") are also allowed)")
-    )
 
 def validate_character_last_name(value):
     #print("does it get here")

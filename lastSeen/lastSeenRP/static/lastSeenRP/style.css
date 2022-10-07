@@ -1,17 +1,38 @@
-li a {
-    color:blue
+
+
+
+/* index.html */
+#index__title {
+  text-align: center;
 }
 
-ul {
+.index-character__URL {
+    color:black;
+    font-size: larger;
+}
+
+.index-character__image {
+  border: 1px solid black;
+}
+
+.index-character__display {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+}
+
+.index-column__display {
     -webkit-column-count: 4;
     -moz-column-count: 4;
     column-count: 4;
-    
 }
 
-li {
-    font-size: larger;
+.index-character__list-item {
+  margin-bottom: 1%;
 }
+/* end index */
+
+/* pagination for search and index files */
 .pagination {
   display: inline-block;
 }
@@ -31,22 +52,24 @@ li {
 .pagination a:hover:not(.active) {
   border-radius: 5px;
 }
+/* end pagination */
 
-.characterImageAndPlayedBy {
+/* character.html */
+.character-description {
   float: right;
   padding: 5%;
   display: block;
 }
 
-.characterName {
+.character-name {
   text-align: center;
 }
 
-.Appearances {
+.character-appearance {
   padding-left: 5%;
 }
 
-ul.characterList {
+.character-appearance__list {
   padding-left: 5%;
   padding-top: 5%;
   padding-bottom: 10%;
@@ -54,16 +77,81 @@ ul.characterList {
   flex-direction: column;
 }
 
-.create_fieldWrapper {
+/* end character */
+
+/* create.html */
+
+.create-formposition {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+}
+
+.create-form {
+  
+  border: solid 2px #10cc84;
+  border-radius: 20px;
+  padding: 30px 50px;
+  background-color: #e3e3e3;
+  width: 40%;
+  
+}
+
+.create-header {
+  text-align: center;
+  padding-bottom: 3%;
+}
+
+.create-submitbutton {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.create_header {
-  text-align: center;
+#create-submitbutton__button {
+  border-radius: 20px;
+  width: 100px;
+  margin-top: 20px;
+  padding: 8px;
+  border-color:#10cc84;
+  border-radius: 60px !important;
+  background-color: #10cc84;
 }
 
-.create_button {
-  padding-top: 5%;
+.create-textinput {
+  
+  border-radius: 12px;
+  border-color: black;
 }
+
+
+/* end create */
+
+
+/* override placeholder size text */
+
+::-webkit-input-placeholder {
+  font-size: 25px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+     font-size: 25px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+     font-size: 25px;
+}
+
+/* Overriding styles */
+
+::-webkit-input-placeholder {
+  font-size: 13px!important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+     font-size: 13px!important;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+     font-size: 13px!important;
+} 
+
+/* end placeholder */
