@@ -33,19 +33,27 @@
     
     <!--may remove this entirely and use twitch api to comb these details-->
       <!--<form action="?" method="post"> -->
-        <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
-        {% csrf_token %}
+      <div class="character-appearance__form-positioning">
+        <div class="character-appearance__form">
+          <form action ="{% url 'lastSeenRP:resubmit' character_id.character_first_name character_id.character_last_name %}" method="post">
+          {% csrf_token %}
           <div class="character_Appearances">
-            <h2 class="appHeading">Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</h2>
-          {% for field in formCreate %}
-            <div class="fieldWrapper">
-              {{field.errors}}
-              {{field.label_tag}} {{field}}
-          {%endfor%}
+              <h2 class="appHeading">Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</h2>
+            {% for field in formCreate %}
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">{{field.label_tag}}</span>
+              </div>
+              {{field}}
             </div>
+            {%endfor%}
           </div>
-        <input type="submit" value="Submit new appearance">
-      </form>
+          <div class="create-submitbutton">
+              <input type="submit" class="btn btn-primary" id="create-submitbutton__button" value="Submit">
+          </div>
+        </form>
+          </div>
+    </div>
     <!--currently only shows message to show that data entry was successful. modify this when making the UI look good // bootstrap, etc-->
     {%if messages %}
     {% for message in messages %}

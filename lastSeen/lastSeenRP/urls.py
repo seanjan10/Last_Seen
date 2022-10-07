@@ -12,5 +12,6 @@ urlpatterns = [
     #url when the user attempts to submit an appearance into the database
     path('character/<str:character_FName>_<str:character_LName>/resubmit', views.resubmit, name='resubmit'),
     path('search', views.searchResults.as_view(), name='search'),
-    path('create', views.createCharacterEntry.as_view(), name='create')
+    path('create', views.createCharacterEntry.as_view(), name='create'),
+    path('copyright', views.CopyrightView, name='copyright')
 ]

@@ -8,15 +8,23 @@ Search Results for "{{search_query}}
     
 
     {%block content%}
-    <h1> Results for "{{search_query}}" </h1>
+    <h1 id="search__title"> Results for "{{search_query}}" </h1>
     <form action="{% url 'lastSeenRP:search' %}" method='GET'>
-    <div class='results'>
+    <div class='search-character__display'>
         <ul class="search-column__display">
             {%if search_results_list%}
                 {% for result in search_results_list%}
-                    <li>
-                        <img src="{{result.character_image}}" alt="Picture of {{result.character_first_name}} {{result.character_last_name}}" width="50" height="60"> 
-                        <a href="{% url 'lastSeenRP:character' result.character_first_name result.character_last_name %}">{{result.character_first_name}} {{result.character_nick_name}} {{result.character_last_name|readd_whitespace}} ({{result.character_played_by}})  </a>
+                    <li class="search-character__list-item">
+                        <div class="search__row">
+                            <div>
+                                <img src="{{result.character_image}}" alt="Picture of {{result.character_first_name}} {{result.character_last_name}}" width="50" height="60" class="search-character__image"> 
+                            </div>
+                            <div class="search-character__text">
+                                <a href="{% url 'lastSeenRP:character' result.character_first_name result.character_last_name %}" class="search-character__URL">
+                                    {{result.character_first_name}} {{result.character_nick_name}} {{result.character_last_name|readd_whitespace}} ({{result.character_played_by}})  
+                                </a>
+                            </div>
+                        </div>
                     </li>
                 {%endfor%}
             {%else%}
