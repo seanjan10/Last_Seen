@@ -6,25 +6,42 @@
     {%endblock title%}
 
     {%block content%}
-    <form action ="{% url 'lastSeenRP:create' %}" method="post">
-        {% csrf_token %}
-          
-            <h1 class="create_header">Create a character entry </h1>
-              {% for field in form %}
-              <div class="create_fieldWrapper">
-                {{field.errors}}
-                {{field.label_tag}} {{field}}
-              {%endfor%}
-            </div>
-          </fieldset>
-        <div class="create_button">
-          <input type="submit" class="btn btn-primary" value="Submit">
-        </div>
-        </form>
-        {%if messages %}
-        {% for message in messages %}
-            <h2> {{message}} </h2>
-        {% endfor %}
-    {% endif %}
+    <div class="create-formposition">
 
+      <div class="create-form"> 
+        <form action ="{% url 'lastSeenRP:create' %}" method="post">
+          {% csrf_token %}
+            
+              <h1 class="create-header">Create a character entry </h1>
+              <div class="container">
+                <div class="row">
+                {% for field in form %}
+                  <div class="create-fielderrors">
+                    {{field.errors}}
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">{{field.label_tag}}</span>
+                    </div>
+                    {{field}}
+                  </div>
+                {%endfor%}
+                </div>
+              </div>
+
+              {%if messages %}
+              {% for message in messages %}
+                <h2 style="color:red"> {{message}} </h2>
+              {% endfor %}
+            {% endif %}
+            
+          <div class="create-submitbutton">
+            <input type="submit" class="btn btn-primary" id="create-submitbutton__button" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+       
+
+        
 {%endblock content%}

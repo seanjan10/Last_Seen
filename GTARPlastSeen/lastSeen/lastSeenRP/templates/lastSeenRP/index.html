@@ -3,13 +3,15 @@
 {%load filters %}
 
 {%block content%}
-        <div class="character_list">
+
+        <h1 id="index__title">NoPixel Character List</h1>
+        <div class="index-character__display">
         {%if latest_character_list %}
-            <ul>
+            <ul class="index-column__display">
             {% for character in latest_character_list%} 
-                <li> 
-                    <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60"> 
-                    <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}">
+                <li class="index-character__list-item"> 
+                    <img src="{{character.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="50" height="60" class="index-character__image"> 
+                    <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}" class="index-character__URL">
                         {{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a>
                     </li> 
             {% endfor %}
