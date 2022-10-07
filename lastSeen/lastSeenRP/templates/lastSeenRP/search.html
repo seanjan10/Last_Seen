@@ -11,7 +11,7 @@ Search Results for "{{search_query}}
     <h1> Results for "{{search_query}}" </h1>
     <form action="{% url 'lastSeenRP:search' %}" method='GET'>
     <div class='results'>
-        <ul>
+        <ul class="search-column__display">
             {%if search_results_list%}
                 {% for result in search_results_list%}
                     <li>
