@@ -134,6 +134,7 @@ class createCharacterEntry(generic.FormView):
         if rpCharacter.objects.filter(character_first_name=fName.capitalize(), character_last_name=lName.capitalize()).exists():
             messages.error(self.request, "ERROR: You can not submit a character that is already in the database.")
         return super(createCharacterEntry, self).form_invalid(form)
+        
 
     #save the character object
     def form_valid(self, form):
@@ -142,7 +143,7 @@ class createCharacterEntry(generic.FormView):
         lName = form.cleaned_data['character_last_name']
 
         if rpCharacter.objects.filter(character_first_name=fName.capitalize(), character_last_name=lName.capitalize()).exists():
-            messages.error(self.request, "ERROR: You can not submit a character that is already in the database.")
+            messages.error(self.request, "You can not submit a character that is already in the database.")
             return super(createCharacterEntry, self).form_invalid(form)
 
         character= form.save()
@@ -161,5 +162,9 @@ class createCharacterEntry(generic.FormView):
         context["formSearch"] = searchForCharacter()
         return context
     
-    
-    
+def CopyrightView(request):
+    formSearch = searchForCharacter()
+
+    return render(request, 'lastSeenRP/copyright.html', {
+        'formSearch': formSearch
+    })

@@ -5,13 +5,19 @@ from django.utils.translation import gettext_lazy as _
 
 class createAppearanceForm(forms.Form):
     #clipURL is the video of the character making an appearance, originally made for twitch clips but may be expanded to youtube, facebook and streamable
-    clipURL = forms.CharField(label="Twitch clip URL", validators=[validate_clip_url], max_length=125)
+    clipURL = forms.CharField(label="Twitch clip URL", validators=[validate_clip_url], max_length=125, widget=forms.TextInput(attrs={'placeholder': "Clip URL", 'class': 'form-control'}))
     #date and time the character made an appearance, may be adjusted to remove seconds and maybe even minutes as they are not that important
-    dateOfAppearance = forms.DateTimeField(label="Date of Appearance", validators=[validate_appearance_time], widget=forms.DateTimeInput(format=('%Y-%m-%d, %H:%M:%S'),attrs={'class': 'datetimepicker', 'placeholder': 'Select a date', 'type': 'datetime-local'}))
+    dateOfAppearance = forms.DateTimeField(label="Date of Appearance", validators=[validate_appearance_time], widget=forms.DateTimeInput(format=('%Y-%m-%d, %H:%M:%S'),attrs={'class': 'form-control', 'placeholder': 'Select a date', 'type': 'datetime-local'}))
+    #dateOfAppearance = forms.CharField(label="Date of Appearance", validators=[validate_appearance_time], widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Select a date', 'type': 'datetime-local'}))
+    
     #dateOfAppearance = forms.CharField(label="Channel of the clip", max_length=30)
 
     #name of the channel that the clip was created under, may append twitch/facebook/youtube the name that is attached or let the user provide it?
-    channelName = forms.CharField(label="Channel of the clip",  max_length=30)
+    channelName = forms.CharField(label="Channel of the clip",  max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Clip Channel Name', 'class':'form-control'}))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""  
+
 
 
 class searchForCharacter(forms.Form):
@@ -46,4 +52,7 @@ class createCharacter(forms.ModelForm):
                 'character_image': 'Image URL',
                 'streamers_URL': 'Streamer URL'
         }
-    
+    #remove the semi colon from the end of labels
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""  

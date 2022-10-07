@@ -17,7 +17,9 @@
                 <div class="row">
                 {% for field in form %}
                   <div class="create-fielderrors">
+                    <span style="color:red">
                     {{field.errors}}
+                    </span>
                   </div>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -31,7 +33,7 @@
 
               {%if messages %}
               {% for message in messages %}
-                <h2 style="color:red"> {{message}} </h2>
+                <p style="color:red"> {{message}} </p>
               {% endfor %}
             {% endif %}
             
