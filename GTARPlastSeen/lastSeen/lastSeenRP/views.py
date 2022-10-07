@@ -95,7 +95,7 @@ class searchResults(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(searchResults, self).get_context_data(**kwargs)
         context["search_query"] = self.request.GET.get("searchQuery")
-        context["form"] = searchForCharacter()
+        context["formSearch"] = searchForCharacter()
         print(type(context))
         return context
     #list of characters that match the search query
@@ -140,10 +140,6 @@ class createCharacterEntry(generic.FormView):
         
         fName = form.cleaned_data['character_first_name']
         lName = form.cleaned_data['character_last_name']
-
-        #print(fName.capitalize())
-        #print(lName.capitalize())
-        #print(rpCharacter.objects.filter(character_first_name=fName.capitalize(), character_last_name=lName.capitalize()))
 
         if rpCharacter.objects.filter(character_first_name=fName.capitalize(), character_last_name=lName.capitalize()).exists():
             messages.error(self.request, "ERROR: You can not submit a character that is already in the database.")
