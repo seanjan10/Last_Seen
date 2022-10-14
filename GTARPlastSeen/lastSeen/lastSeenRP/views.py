@@ -112,7 +112,7 @@ class searchResults(generic.ListView):
             | Q(character_last_name__icontains=term) 
             | Q(character_played_by__icontains=term)
             )
-        return search_results_list
+        return search_results_list.order_by('character_first_name')
 
 class createCharacterEntry(generic.FormView):
     template_name = 'lastSeenRP/create.html'
