@@ -23,6 +23,18 @@ Search Results for "{{search_query}}
                                 <a href="{% url 'lastSeenRP:character' result.character_first_name result.character_last_name %}" class="search-character__URL">
                                     {{result.character_first_name}} {{result.character_nick_name}} {{result.character_last_name|readd_whitespace}} ({{result.character_played_by}})  
                                 </a>
+                                {% for appear in result.appearance_set.all %}
+                                    {%if forloop.first%}
+                                        {%if appear.recently_appeared%}
+                                            <p style="color:green"class="search-character__lastseen">Last Seen: {{appear.date_of_appearance}}</p>
+                                        {%else%}
+                                            <p style="color:orange"class="search-character__lastseen">Last Seen: {{appear.date_of_appearance}}</p>
+                                        {%endif%}
+                                    {%endif%}
+                                {% empty %}
+                                    <p style="color:red"class="search-character__lastseen">Last Seen: N/A </p>
+                                {% endfor %}
+
                             </div>
                         </div>
                     </li>
