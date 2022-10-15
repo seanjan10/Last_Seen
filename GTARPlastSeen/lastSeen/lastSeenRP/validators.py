@@ -28,6 +28,17 @@ def valid_ascii_character(value, isNickName):
         return True
     '''
 
+def validate_channel_name(value):
+    #twitch username constraints
+    pattern = "^([a-zA-Z0-9][a-zA-Z0-9_]{3,25})$"
+    x = re.fullmatch(pattern, value)
+
+    if x == None:
+        raise ValidationError(
+            _("Channel names can only be alphanumeric including underscores (cannot start with an underscore) and must have more than 3 characters")
+    )
+
+    return value
 
 def validate_character_nick_name(value):
 

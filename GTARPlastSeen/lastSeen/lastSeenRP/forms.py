@@ -13,7 +13,7 @@ class createAppearanceForm(forms.Form):
     #dateOfAppearance = forms.CharField(label="Channel of the clip", max_length=30)
 
     #name of the channel that the clip was created under, may append twitch/facebook/youtube the name that is attached or let the user provide it?
-    channelName = forms.CharField(label="Channel of the clip",  max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Clip Channel Name', 'class':'form-control'}))
+    channelName = forms.CharField(label="Channel of the clip", validators=[validate_channel_name], max_length=25, widget=forms.TextInput(attrs={'placeholder': 'Clip Channel Name', 'class':'form-control'}))
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""  
