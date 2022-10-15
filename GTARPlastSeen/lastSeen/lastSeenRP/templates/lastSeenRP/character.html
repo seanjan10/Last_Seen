@@ -23,7 +23,7 @@
       <div class="character-appearance">
         <ul class="character-appearance__list">
           {% for appear in character_id.appearance_set.all %}
-              <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}" target="_blank"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
+              <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}" target="_blank"> {{appear.clip_Streamer}}'s</a> stream. <i>Updated at {{appear.publish_time}} </i> </li>
               
           {% empty %}
           <li> This character has no appearances in the database. Would you like to create one?</li>
