@@ -25,7 +25,7 @@
           {% for appear in character_id.appearance_set.all %}
               <li> appeared on {{appear.date_of_appearance}} on <a href="{{appear.twitch_clip_URL}}" target="_blank"> {{appear.clip_Streamer}}'s</a> stream. Updated at {{appear.publish_time}} </li>
               
-        {% empty %}
+          {% empty %}
           <li> This character has no appearances in the database. Would you like to create one?</li>
           {% endfor %}
       </ul>
@@ -40,6 +40,9 @@
           <div class="character_Appearances">
               <h2 class="appHeading">Create an appearance for {{character_id.character_first_name}} {{character_id.character_last_name}}</h2>
             {% for field in formCreate %}
+            <span style="color:red">
+              {{field.errors}}
+              </span>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">{{field.label_tag}}</span>
@@ -51,15 +54,15 @@
           <div class="create-submitbutton">
               <input type="submit" class="btn btn-primary" id="create-submitbutton__button" value="Submit">
           </div>
+          {%if messages %}
+          {% for message in messages %}
+          <h2> {{message}} </h2>
+          {% endfor %}
+          {% endif %}
         </form>
           </div>
     </div>
     <!--currently only shows message to show that data entry was successful. modify this when making the UI look good // bootstrap, etc-->
-    {%if messages %}
-    {% for message in messages %}
-    <h2> {{message}} </h2>
-    {% endfor %}
-    {% endif %}
 
 
     

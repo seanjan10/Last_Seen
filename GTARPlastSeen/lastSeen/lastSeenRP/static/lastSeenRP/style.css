@@ -5,6 +5,10 @@
   display: flex;
 }
 
+.index-character__lastseen {
+  font-size: small;
+}
+
 .index-character__text {
   margin-left: 2%;
   padding: 3%;
@@ -110,6 +114,11 @@
 /* end character */
 
 /* search.html */
+
+
+.search-character__lastseen {
+  font-size: small;
+}
 
 .search__row {
   display: flex;

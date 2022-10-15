@@ -17,6 +17,17 @@
                         <div class="index-character__text">
                                 <a href="{% url 'lastSeenRP:character' character.character_first_name character.character_last_name %}" class="index-character__URL">
                                 {{character.character_first_name}} {{character.character_nick_name}} {{character.character_last_name|readd_whitespace}} ({{character.character_played_by}})  </a>
+                        {% for appear in character.appearance_set.all %}
+                            {%if forloop.first%}
+                                    {%if appear.recently_appeared%}
+                                        <p style="color:green"class="index-character__lastseen">Last Seen: {{appear.date_of_appearance}}</p>
+                                    {%else%}
+                                        <p style="color:orange"class="index-character__lastseen">Last Seen: {{appear.date_of_appearance}}</p>
+                                    {%endif%}
+                            {%endif%}
+                        {% empty %}
+                            <p style="color:red"class="index-character__lastseen">Last Seen: N/A </p>
+                        {% endfor %}
                         </div>
                     </div>
                     </li> 
