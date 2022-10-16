@@ -170,6 +170,7 @@ def handler404(request, exception):
     return response
 '''
 #temp fix to display 404 page
+
 def handler404(request, exception):
     formSearch = searchForCharacter()
     data = {"ERROR": '404', 'formSearch':formSearch}
