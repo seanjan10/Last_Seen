@@ -16,6 +16,7 @@
 
 #index__title {
   text-align: center;
+  padding-top: 2%;
 }
 
 .index-character__URL {
@@ -88,6 +89,7 @@
 
 .character-name {
   text-align: center;
+  padding-top: 2%;
 }
 
 .character-appearance {
@@ -134,6 +136,7 @@
 
 #search__title {
   text-align: center;
+  padding-top: 2%;
 }
 
 .search-character__display {
