@@ -11,6 +11,7 @@ from urllib.parse import quote_plus
 from decouple import config
 from lastSeenRP.models import rpCharacter, Appearance
 import pytz
+from django.utils import timezone
 from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404
 
@@ -69,18 +70,23 @@ def redditResponseToRecentAppearances(data, mention):
         
 
 
-
+#TODO: add validation for channel name for twitch requirements
 def redditResponseToCreateAppearance(data, parentPost, mention):
     #remove from list since no longer necessary
     data.pop(0)
     print('you selected to create an appearance')
-    ##if len(data) == 3:
+
+    
     clipStreamerName = data[0]
+
+    #create if statement for channel name validity
+
     data.pop(0)
     #print(len(data))
     #print(data)
     if len(data) % 2 == 0:
-        now = pytz.UTC.localize(datetime.now())
+        #now = pytz.UTC.localize(datetime.now())
+        now = timezone.now()
         clipURL = parentPost.url
 
         #check if whitelisted url

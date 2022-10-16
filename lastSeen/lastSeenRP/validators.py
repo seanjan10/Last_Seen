@@ -111,7 +111,8 @@ def validate_streamer_url(value):
 
 #make sure a submitted appearance is in the past and not the future
 def validate_appearance_time(value):
-    now = pytz.UTC.localize(datetime.now())
+    #now = pytz.UTC.localize(datetime.now())
+    now = timezone.now()
     print(value)
     print(now)
     print(value > now)

@@ -45,7 +45,7 @@ class Appearance(models.Model):
     twitch_clip_URL = models.URLField(max_length=100)
     date_of_appearance = models.DateTimeField('date and time that the character showed up')
     clip_Streamer = models.CharField(max_length=50) #in case the clip gets deleted they can find the streamers vod and watch
-    publish_time = models.DateTimeField('date and time a user submitted this post', default= pytz.UTC.localize(datetime.now()))
+    publish_time = models.DateTimeField('date and time a user submitted this post', default= timezone.now)
     submittedBy = models.CharField(max_length=25, default="", blank=True)
     def __str__(self):
         return self.twitch_clip_URL + ', ' + self.date_of_appearance.strftime("%Y-%m-%d, %H:%M:%S") + ', ' + self.clip_Streamer + ', ' + self.publish_time.strftime("%m/%d/%Y, %H:%M:%S")
@@ -59,7 +59,8 @@ class Appearance(models.Model):
     #try to troubleshoot why some appearances made within the past hour aren't recent but more than a day are
     #change published to recently seen
     def recently_published(self):
-        now = pytz.UTC.localize(datetime.now())
+        #now = pytz.UTC.localize(datetime.now())
+        now = timezone.now()
         #return self.publish_time >= datetime.now() - timedelta(days=1)
         return now - timedelta(days=7) <= self.publish_time <= now + timedelta(hours=1)
         #order appearances by their earliest known appearance
@@ -74,7 +75,8 @@ class Appearance(models.Model):
     #try to troubleshoot why some appearances made within the past hour aren't recent but more than a day are
     #change published to recently seen
     def recently_appeared(self):
-        now = pytz.UTC.localize(datetime.now())
+        #now = pytz.UTC.localize(datetime.now())
+        now = timezone.now()
         #return self.publish_time >= datetime.now() - timedelta(days=1)
         return now - timedelta(days=7) <= self.date_of_appearance <= now + timedelta(hours=1)
         #order appearances by their earliest known appearance

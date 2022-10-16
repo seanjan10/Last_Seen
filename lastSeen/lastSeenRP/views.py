@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from lastSeenRP.models import rpCharacter, Appearance
 from .forms import createAppearanceForm, searchForCharacter, createCharacter
 from datetime import datetime
+from django.utils import timezone
 from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
@@ -65,7 +66,8 @@ def resubmit(request, character_FName, character_LName):
             d = formCreate.cleaned_data["dateOfAppearance"]
             c = formCreate.cleaned_data["channelName"]
             #as of now, time is stored in UTC time
-            a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=pytz.UTC.localize(datetime.now()))
+            #a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=pytz.UTC.localize(datetime.now()))
+            a = Appearance(character_name=character_id, twitch_clip_URL=u, date_of_appearance=d, clip_Streamer=c, publish_time=timezone.now())
             #enter record into the Database
             a.save()
             #display success message to user
