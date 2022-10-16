@@ -1,3 +1,5 @@
+/* when running with debug off, and the css breaks, add --insecure to the command line so static files are manually ran */
+
 
 /* index.html */
 
@@ -254,3 +256,11 @@
   padding: 5%;
 }
 /* end copyright */
+
+/* start 404.html */
+
+.e404__text {
+  padding-left: 2%;
+  padding-top: 2%;
+}
+/* end 404.html */
