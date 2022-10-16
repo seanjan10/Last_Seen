@@ -163,3 +163,18 @@ def CopyrightView(request):
     return render(request, 'lastSeenRP/copyright.html', {
         'formSearch': formSearch
     })
+'''
+def handler404(request, exception):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
+'''
+#temp fix to display 404 page
+def handler404(request, exception):
+    formSearch = searchForCharacter()
+    data = {"ERROR": '404', 'formSearch':formSearch}
+    return render(request, 'lastSeenRP/404.html', data, status=404)
+
+
+def handler500(request):
+    return render(request, 'lastSeenRP/500.html', status=500)

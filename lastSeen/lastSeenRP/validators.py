@@ -14,7 +14,6 @@ def valid_ascii_character(value, isNickName):
         pattern = "([A-Za-z0-9\-\'\.\_])+"
 
     x = re.fullmatch(pattern, value)
-    #print(x)
     if x == None:
         return False
     else: 
@@ -54,9 +53,7 @@ def validate_character_nick_name(value):
         )
 
 def validate_character_last_name(value):
-    #print("does it get here")
     if " " in value:
-        #print("lets see if it gets here")
         raise ValidationError(
             _("Last names cannot include spaces. Instead use underscores( _ ). Additional Characters that are allowed are (-, ', .)")
         )
@@ -68,9 +65,7 @@ def validate_character_last_name(value):
     return value
 
 def validate_character_first_name(value):
-    #print("does it get here")
     if " " in value:
-        #print("lets see if it gets here")
         raise ValidationError(
             _("First names cannot include spaces. Additional names should be added into the last name box. Characters that are allowed are (-, ', .)")
         )
@@ -113,15 +108,10 @@ def validate_streamer_url(value):
 def validate_appearance_time(value):
     #now = pytz.UTC.localize(datetime.now())
     now = timezone.now()
-    print(value)
-    print(now)
-    print(value > now)
     if value > now:
-        print("error should be printing 1") 
         raise ValidationError(
             _("Appearance cannot be in the future")
-        )
-        print("error should be printing")       
+        )   
     else:
         return value
 #validate that the clip submitted is a whitelisted URL and that it includes an https protocol
