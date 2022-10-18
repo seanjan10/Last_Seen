@@ -18,7 +18,7 @@ class rpCharacter(models.Model):
     #currently all names except first are considered last name or nick name
     character_last_name = models.CharField(max_length=50, validators=[validate_character_last_name])
     #if info about who plays a character isn't available, then display unknown
-    character_played_by = models.CharField(max_length=50,  blank=True)
+    character_played_by = models.CharField(max_length=50, validators=[validate_channel_name],  blank=True)
     character_image = models.URLField(max_length=200, blank=True, validators=[validate_character_image])
     #streamers_URL = models.CharField(max_length=60, blank=True)
     streamers_URL = models.URLField(max_length=60, blank=True, validators=[validate_streamer_url])
