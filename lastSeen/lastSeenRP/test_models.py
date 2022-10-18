@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from .models import Appearance, rpCharacter
 
 
-class AppearanceModelTests(TestCase):
+class ModelTests(TestCase):
 
     #====== recently_appeared =====
 
