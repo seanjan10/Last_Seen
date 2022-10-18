@@ -4117,7 +4117,7 @@ Robert,,Penta,,,Phttps://www.twitch.tv/ENTA, https://static.wikia.nocookie.net/n
 Gillbert,,Gottfried,,,https://www.twitch.tv/PENTA, https://static.wikia.nocookie.net/nopixel/images/0/02/Gillbert.png
 Felicity,,Tangle,,,https://www.twitch.tv/Kiwo, https://static.wikia.nocookie.net/nopixel/images/e/ef/FelicityT.png
 Ghar,,Beige,,,https://www.twitch.tv/Kiwo, https://static.wikia.nocookie.net/nopixel/images/c/cb/Garbage.png
-Jesus,,Christ.,,,https://www.twitch.tv/PENTA, https://static.wikia.nocookie.net/nopixel/images/6/6d/Christ..png
+Jesus,,Christ,,,https://www.twitch.tv/PENTA, https://static.wikia.nocookie.net/nopixel/images/6/6d/Christ..png
 Brooke,,Woods,,,https://www.twitch.tv/Delaney, https://static.wikia.nocookie.net/nopixel/images/3/36/BrookeWoodsApplicant.png
 Sweetie,,Jones,,,https://www.twitch.tv/Sweeettails, https://static.wikia.nocookie.net/nopixel/images/e/ef/Sweetie_Jones_-_NoPixel.png/
 David,"Hardcore",William,,,https://www.twitch.tv/PENTA, https://static.wikia.nocookie.net/nopixel/images/1/12/HardcoreWilliam.png
