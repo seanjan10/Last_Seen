@@ -30,7 +30,7 @@ class rpCharacter(models.Model):
     def __str__(self):
         return self.character_first_name + ', ' + self.character_nick_name + ', ' + self.character_last_name + ', ' + self.character_played_by + ', ' + self.streamers_URL + ', ' + self.character_image
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.character_played_by == '':
             self.character_played_by = 'Unknown'
         if self.character_image == '':
@@ -38,6 +38,7 @@ class rpCharacter(models.Model):
         if self.streamers_URL == '':
             self.streamers_URL = 'Unknown'
         super().save()
+    
 
 class Appearance(models.Model):
     character_name = models.ForeignKey(rpCharacter, on_delete=models.CASCADE)
