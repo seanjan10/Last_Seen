@@ -67,25 +67,76 @@ class AppearanceModelTests(TestCase):
 
 
     #===== validators check =====
+    def test_valid_character(self):
+        '''valid character follows all constraints of the validators'''
+        first_name = 'Bob'
+        last_name = 'Joe'
+        nick_name = '\"Tiger\"'
+        image = 'https://static.wikia.nocookie.net/scoobydoo/images/2/28/Billy_Bob_Joe_Bob_Harris.png'
+        played_by = "BillyJoe"
+        url = 'https://www.twitch.tv/BobRoss'
+        character = rpCharacter(character_first_name=first_name, character_last_name=last_name, character_nick_name=nick_name, character_image=image, character_played_by=played_by, streamers_URL=url)
+        character.full_clean()
 
-    def test_character_first_name_valid(self):
-        '''valid first name includes alphanumeric characters'''
+
+    def test_character_first_name_invalid_char(self):
+        '''first name is invalid if it includes non alphanumeric characters except - . ' _  '''
         first_name = "Bob#"
         last_name = "Joe"
         character = rpCharacter(character_first_name=first_name, character_last_name=last_name)
         with self.assertRaises(ValidationError):
             character.full_clean()
 
-    def test_character_last_name_valid(self):
-        '''valid last name includes alphanumeric characters'''
+    def test_character_last_name_invalid_char(self):
+        '''last name is invalid if it includes non alphanumeric characters except - . ' _  '''
         first_name = "Bob"
         last_name = "Joe@"
         character = rpCharacter(character_first_name=first_name, character_last_name=last_name)
         with self.assertRaises(ValidationError):
             character.full_clean()
 
+    def test_character_nick_name_invalid_char(self):
+        '''last name is invalid if it includes non alphanumeric characters except - . ' _  '''
+        first_name = "Bob"
+        last_name = "Joe"
+        nick_name = "\"Cho*p\""
+        character = rpCharacter(character_first_name=first_name, character_nick_name=nick_name, character_last_name=last_name)
+        with self.assertRaises(ValidationError):
+            character.full_clean()
+
+        
+        first_name = "Bob"
+        last_name = "Joe"
+        nick_name = "Chop"
+        character = rpCharacter(character_first_name=first_name, character_nick_name=nick_name, character_last_name=last_name)
+        with self.assertRaises(ValidationError):
+            character.full_clean()
+
+    def test_character_played_by_invalid_requirements(self):
+        '''played by is invalid if it includes non alphanumeric characters except _ and cannot lead with it. also name can only be between 4-25 characters  '''
+        first_name = "Bob"
+        last_name = "Joe"
+        played_by = "_joejj"
+        character = rpCharacter(character_first_name=first_name, character_last_name=last_name, character_played_by=played_by)
+        with self.assertRaises(ValidationError):
+            character.full_clean()
+
+        #print("first test done")
+        first_name = "Bob"
+        last_name = "Joe"
+        played_by = "jj"
+        character = rpCharacter(character_first_name=first_name, character_last_name=last_name, character_played_by=played_by)
+        with self.assertRaises(ValidationError):
+            character.full_clean()
 
 
+        first_name = "Bob"
+        last_name = "Joe"
+        played_by = "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+        character = rpCharacter(character_first_name=first_name, character_last_name=last_name, character_played_by=played_by)
+        with self.assertRaises(ValidationError):
+            character.full_clean()
+        #print("third test done")
 
 
 def create_character(char_fname, char_nname, char_lname, char_play_by, char_image, char_streamurl):
