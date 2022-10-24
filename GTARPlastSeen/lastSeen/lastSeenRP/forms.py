@@ -3,6 +3,7 @@ from lastSeenRP.models import rpCharacter
 from lastSeenRP.validators import *
 from django.utils.translation import gettext_lazy as _
 
+#form the create an appearance on a characters page
 class createAppearanceForm(forms.Form):
     #clipURL is the video of the character making an appearance, originally made for twitch clips but may be expanded to youtube, facebook and streamable
     clipURL = forms.CharField(label="Twitch clip URL", validators=[validate_clip_url], max_length=125, widget=forms.TextInput(attrs={'placeholder': "Clip URL", 'class': 'form-control'}))
@@ -19,10 +20,10 @@ class createAppearanceForm(forms.Form):
         self.label_suffix = ""  
 
 
-
+#form for the search bar present on all pages
 class searchForCharacter(forms.Form):
     searchQuery = forms.CharField(label="Search", max_length=60, widget=forms.TextInput(attrs={'placeholder': 'Search', 'class':'form-control mr-sm-2', 'type':'search', 'aria-label':'Search'}))
-
+#form to create a character when clicking the create tab
 class createCharacter(forms.ModelForm):
 
     class Meta:
