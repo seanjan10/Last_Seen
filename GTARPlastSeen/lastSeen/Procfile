@@ -1,1 +1,1 @@
-web: waitress-serve --listen=*:8000 lastSeen.wsgi:application
+web: python manage.py runserver 
