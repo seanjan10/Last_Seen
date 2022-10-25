@@ -26,7 +26,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'last-seen-in-gta-rp.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'last-seen-in-gta-rp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -79,11 +79,17 @@ WSGI_APPLICATION = 'lastSeen.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('postgress_NAME'),
+        'HOST': config('postgress_HOST'),
+        'PORT': config('postgress_PORT'),
+        'USER': config('postgress_USER'),
+        'PASSWORD': config('postgress_PASSWORD')
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
