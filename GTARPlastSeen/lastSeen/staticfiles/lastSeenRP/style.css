@@ -1,0 +1,266 @@
+/* when running with debug off, and the css breaks, add --insecure to the command line so static files are manually ran */
+
+
+/* index.html */
+
+.index__row {
+  display: flex;
+}
+
+.index-character__lastseen {
+  font-size: small;
+}
+
+.index-character__text {
+  margin-left: 2%;
+  padding: 3%;
+}
+
+#index__title {
+  text-align: center;
+  padding-top: 2%;
+}
+
+.index-character__URL {
+    color:black;
+    font-size: larger;
+}
+
+.index-character__image {
+  border: 1px solid black;
+}
+
+.index-character__display {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.index-column__display {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    list-style-type: none;
+}
+
+.index-character__list-item {
+  margin-bottom: 1%;
+}
+/* end index */
+
+/* pagination for search and index files */
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  border-radius: 5px;
+}
+/* end pagination */
+
+/* character.html */
+
+.character-appearance__form-positioning {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+
+.character-description {
+  float: right;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 5%;
+}
+
+.character-name {
+  text-align: center;
+  padding-top: 2%;
+}
+
+.character-appearance {
+  padding-left: 15%;
+  
+}
+
+.character-appearance__list {
+  padding-left: 5%;
+  padding-top: 5%;
+  line-height: 25px;
+  display:flex;
+  flex-direction: column;
+}
+
+.character-appearance__form {
+  margin-top: 5%;
+  border: solid 2px #10cc84;
+  border-radius: 20px;
+  padding: 30px 50px;
+  background-color: #e3e3e3;
+  width: 60%;
+}
+
+/* end character */
+
+/* search.html */
+
+
+.search-character__lastseen {
+  font-size: small;
+}
+
+.search__row {
+  display: flex;
+}
+
+.search-character__text {
+ /* margin-top: 2%; */
+  margin-left: 2%;
+  padding-top: 2%;
+}
+
+
+#search__title {
+  text-align: center;
+  padding-top: 2%;
+}
+
+.search-character__display {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+}
+
+.search-column__display {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  column-count: 4;
+  list-style-type: none;
+}
+
+.search-character__image {
+  border: 1px solid black;
+}
+
+.search-character__list-item {
+  margin-bottom: 1%;
+}
+
+.search-character__URL {
+  color:black;
+  font-size: larger;
+}
+
+
+/* end search */
+
+/* create.html */
+
+.create-formposition {
+  display: flex;
+  justify-content: center;
+}
+
+.create-form {
+  margin-top: 5%;
+  border: solid 2px #10cc84;
+  border-radius: 20px;
+  padding: 30px 50px;
+  background-color: #e3e3e3;
+  width: 40%;
+  
+}
+
+.create-header {
+  text-align: center;
+  padding-bottom: 3%;
+}
+
+.create-submitbutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#create-submitbutton__button {
+  border-radius: 20px;
+  width: 100px;
+  margin-top: 20px;
+  padding: 8px;
+  border-color:#10cc84;
+  border-radius: 60px !important;
+  background-color: #10cc84;
+}
+
+.create-textinput {
+  border-radius: 12px;
+  border-color: black;
+}
+
+
+/* end create */
+
+
+/* override placeholder size text */
+
+::-webkit-input-placeholder {
+  font-size: 25px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+     font-size: 25px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+     font-size: 25px;
+}
+
+/* Overriding styles */
+
+::-webkit-input-placeholder {
+  font-size: 13px!important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+     font-size: 13px!important;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+     font-size: 13px!important;
+} 
+
+/* end placeholder */
+
+/* copyright.html */
+
+.copyright__text {
+  text-align: center;
+}
+
+.copyright-positioning {
+  padding: 5%;
+}
+/* end copyright */
+
+/* start 404.html */
+
+.e404__text {
+  padding-left: 2%;
+  padding-top: 2%;
+}
+/* end 404.html */
