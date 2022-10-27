@@ -14,27 +14,31 @@
     <title>{% block title%} Last Seen in GTA RP {% endblock title%} </title>
     <link rel="stylesheet" href="{% static 'lastSeenRP/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="icon" type="image/jpg" href="{%static 'lastSeenRP/images/binoculars.jpg' %}">
+    <link rel="icon" type="image/jpg" href="{%static 'images/binoculars.jpg' %}">
   </head>
   <body>
     {%block navbar%}
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#10cc84">   
+    <nav class="navbar navbar-expand navbar-light px-1" style="background-color:#10cc84">   
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item active ">
               <a class="nav-link" href="{% url 'lastSeenRP:index' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item active ">
               <a class="nav-link" href="{% url 'lastSeenRP:create' %}">Add Character</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item active ">
               <a class="nav-link" href="{% url 'lastSeenRP:copyright' %}">Copyright</a>
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0" action="{% url 'lastSeenRP:search' %}" method='GET'>
             <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
             {{formSearch.searchQuery}}
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary float-right" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
           </form>
         </div>
       </nav>
@@ -42,6 +46,30 @@
 
     {%block content%}
     {%endblock content%}
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      $(document).ready(function(){
 
+        if ($(window).width() < 960) {
+          $(".input-group").addClass("input-group-sm")
+        }
+        else {
+          $(".input-group").removeClass("input-group-sm")
+        }
+      
+
+        $(window).on('resize', function() {
+                if ($(window).width() < 576) {
+                    //alert('Less than 582 resize');
+                    $(".input-group").addClass("input-group-sm")
+                    
+                } else {
+                    //alert('More than 582 resize');
+                    $(".input-group").removeClass("input-group-sm")
+                }
+        });
+        
+      });
+    </script>
   </body>
 </html>

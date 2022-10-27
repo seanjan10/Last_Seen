@@ -3,10 +3,15 @@
 {%load filters%}
 
     {%block title%}
-    Appearances by {{character_id.character_first_name}} {{character_id.character_last_name|readd_whitespace}}
+     {{character_id.character_first_name}} {{character_id.character_last_name|readd_whitespace}}
     {%endblock title%}
 
     {%block content%}
+
+    <div class="character-name">
+        <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name|readd_whitespace}} </h1>
+      </div>
+
       <div class="character-description">
         <img src="{{character_id.character_image}}" alt="Picture of {{character.character_first_name}} {{character_id.character_last_name}}" width="300" height="400">
         {% if character_id.streamers_URL == "Unknown" %}
@@ -16,9 +21,7 @@
         {%endif%}
       </div>
 
-      <div class="character-name">
-        <h1> {{character_id.character_first_name}} {{character_id.character_nick_name}} {{character_id.character_last_name|readd_whitespace}} </h1>
-      </div>
+      
 
       <div class="character-appearance">
         <ul class="character-appearance__list">
