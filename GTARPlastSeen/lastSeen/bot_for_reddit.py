@@ -66,7 +66,7 @@ def redditResponseToRecentAppearances(data, mention):
                 else:
                     reply_template = reply_template +f"ERROR: {fName} {lNameRemoveUnderscore} does not exist. If this character does exist then they have not been entered into the database. This can be done [HERE.]({myURL})\n\n"
     else:
-        mention.reply(body=f"ERROR: Incorrect Number of arguments. Please only provide the first and last name of the character. (e.g. /u/NoPixelAppearanceBot create_appearance Avon Barksdale).\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance Arush Patel_Santana{endString}")
+        mention.reply(body=f"ERROR: Incorrect Number of arguments. Please only provide the first and last name of the character. (e.g. /u/NoPixelAppearanceBot recent_appearances Avon Barksdale).\nNote: if the character has more than two names, then include the additional names in the last name and indicate the additional names with underscores in place of spaces. (e.g. /u/NoPixelAppearanceBot create_appearance Arush Patel_Santana{endString}")
         mention.mark_read()
         
 
@@ -121,11 +121,11 @@ def redditResponseToCreateAppearance(data, parentPost, mention):
                 appearance = createAppearance(character, clipURL, appearanceTime, clipStreamerName, now)
                 
                 if len(data) == 0:
-                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](http://127.0.0.1:8000/lastSeenRP/character/{characterFName}_{characterLName}/){endString}"
+                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](https://last-seen-in-gta-rp.herokuapp.com/character/{characterFName}_{characterLName}/){endString}"
                     mention.reply(body=reply_template)
                     mention.mark_read()
                 else:
-                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](http://127.0.0.1:8000/lastSeenRP/character/{characterFName}_{characterLName}/)\n\n"
+                    reply_template = reply_template +f"New appearance created for {characterFName} {character.character_nick_name} {lNameRemoveUnderscore}! View other appearances by this character [HERE.](https://last-seen-in-gta-rp.herokuapp.com/character/{characterFName}_{characterLName}/)\n\n"
 
             except ObjectDoesNotExist:
                 #print("ERROR: The character you entered does not exist. If this character does exist then they have not been entered into the database. This can be done at www.url.com")
@@ -185,30 +185,34 @@ def configReddit():
 
 def main():
     reddit = configReddit()
-    for mention in reddit.inbox.mentions(limit=30):
-        time.sleep(3)
-        print(mention.new)
-        if mention.new == True:
-            if (mention.subreddit == 'test' or mention.subreddit == 'RPClipsGTA'):
-                print(f'{mention.author}\n{mention.body}')
+    while True:
+        for mention in reddit.inbox.mentions(limit=30):
+            #print(mention.new)
+            if mention.new == True:
+                if (mention.subreddit == 'test' or mention.subreddit == 'RPClipsGTA'):
+                    print(mention.new)
+                    print(f'{mention.author}\n{mention.body}')
 
-                data = mention.body.split()
-                parentPost = mention.submission
-                #remove username mention
-                data.pop(0)
+                    data = mention.body.split()
+                    parentPost = mention.submission
+                    #remove username mention
+                    data.pop(0)
 
-                if data[0] == "create_appearance":
-                    redditResponseToCreateAppearance(data, parentPost, mention)
+                    if data[0] == "create_appearance":
+                        redditResponseToCreateAppearance(data, parentPost, mention)
 
-                elif data[0] == "recent_appearances":
-                    redditResponseToRecentAppearances(data,mention)
+                    elif data[0] == "recent_appearances":
+                        redditResponseToRecentAppearances(data,mention)
+                    else:
+                        print("typo command or incorrect command")
 
+                else:
+                    print("Won't respond to unwhitelisted sub")
             else:
-                print("Won't respond to unwhitelisted sub")
-        else:
-            print('I have seen this message already, send me something new.')
-        print("-----------------------------------------")
-        print("-----------------------------------------")
+                #print('I have seen this message already, send me something new.')
+                pass
+            #print("-----------------------------------------")
+            #print("-----------------------------------------")
     
 
 
