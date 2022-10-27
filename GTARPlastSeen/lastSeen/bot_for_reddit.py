@@ -14,11 +14,12 @@ import pytz
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404
+import re
 
 #global vars
 redditUsername = config('redditUsername')
 endString = f"\n\n*This action was automated by a bot. It has no affiliation to the Staff or Owner of NoPixel. You can contact the owner of this bot [here.](https://www.reddit.com/user/{redditUsername})*"
-myURL = "http://127.0.0.1:8000/lastSeenRP/create"
+myURL = "https://last-seen-in-gta-rp.herokuapp.com/create"
 
 
 def redditResponseToRecentAppearances(data, mention):
@@ -78,6 +79,11 @@ def redditResponseToCreateAppearance(data, parentPost, mention):
 
     
     clipStreamerName = data[0]
+
+    if validTwitchUsername(clipStreamerName) == False:
+        mention.reply(body=f'ERROR: The channel name you provided is not a valid Twitch Username. Please make sure the channel name follows all of Twitch\'s username requirements and try again.{endString}')
+        mention.mark_read()
+        return
 
     #create if statement for channel name validity
 
@@ -159,7 +165,14 @@ def validClipURL(clip):
     else:
         return False
         
+def validTwitchUsername(channelName):
+    pattern = "^([a-zA-Z0-9][a-zA-Z0-9_]{3,25})$"
+    x = re.fullmatch(pattern, channelName)
 
+    if x == None:
+        return False
+    else:
+        return True
 
 def configReddit():
     #bot for reddit
